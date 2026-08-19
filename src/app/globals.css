@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Farben. Ausgangspunkt ist das Logo; Hintergrund und Textstufen sind auf
+   Kontrast hin nachgezogen (Fliesstext liegt bei ~13:1, sekundaerer Text bei
+   ~6:1 auf Nachtblau). Rot und Orange sind fuer Text zu dunkel und deshalb
+   nur Flaechen- und Randfarben – fuer Text darauf gibt es die -hell-Varianten.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-nacht:       #101625;
+  --color-nacht-tief:  #0a0e18;
+  --color-nacht-hoch:  #182034;
+
+  --color-rot:         #e4322b;
+  --color-rot-hell:    #ff8079;
+  --color-gruen:       #1ba149;
+  --color-gruen-hell:  #4ede84;
+  --color-orange:      #f26522;
+  --color-orange-hell: #ffa06b;
+  --color-gelb:        #ffc61e;
+  --color-gelb-hell:   #ffd75e;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+
+  --radius-glas: 1.25rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Grundlage. Alles ab hier liegt in Cascade Layers: Basis- und
+   Komponentenstile stehen VOR den Utilities, damit ein `w-24` im Markup eine
+   Breitenangabe aus `.feld` schlagen kann und nicht andersherum.
+--------------------------------------------------------------------------- */
+@layer base {
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-nacht);
+  color: #fff;
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  /* Zwei sehr weiche Lichter aus dem Logo, damit die Glasflaechen etwas haben,
+     wovor sie schweben koennen. */
+  background-image:
+    radial-gradient(60rem 40rem at 12% -8%, rgba(228, 50, 43, 0.16), transparent 62%),
+    radial-gradient(48rem 34rem at 96% 4%, rgba(255, 198, 30, 0.11), transparent 58%),
+    radial-gradient(52rem 40rem at 50% 108%, rgba(27, 161, 73, 0.1), transparent 60%);
+  background-attachment: fixed;
+}
+
+@supports not (height: 100dvh) {
+  body { min-height: 100vh; }
+}
+
+::selection {
+  background: var(--color-gelb);
+  color: var(--color-nacht);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gelb);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+}
+
+/* ---------------------------------------------------------------------------
+   Glas
+--------------------------------------------------------------------------- */
+@layer components {
+
+.glas {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-glas);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    0 12px 32px -18px rgba(0, 0, 0, 0.9);
+}
+
+.glas-tief {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+}
+
+.glas-knopf {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.glas-knopf:hover {
+  background: rgba(255, 255, 255, 0.13);
+  border-color: rgba(255, 255, 255, 0.26);
+}
+
+.glas-knopf:active {
+  transform: scale(0.985);
+}
+
+/* Sticky-Leiste oben: hier darf das Glas etwas dichter sein, sonst flimmert der
+   Text beim Scrollen ueber wechselnden Hintergruenden. */
+.glas-leiste {
+  background: rgba(16, 22, 37, 0.82);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ---------------------------------------------------------------------------
+   Formularfelder
+--------------------------------------------------------------------------- */
+.feld {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0.85rem;
+  padding: 0.8rem 0.9rem;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 150ms ease, background 150ms ease;
+  /* 16px verhindert, dass iOS beim Fokus in das Feld hineinzoomt. */
+}
+
+.feld::placeholder { color: rgba(255, 255, 255, 0.38); }
+.feld:hover { border-color: rgba(255, 255, 255, 0.24); }
+.feld:focus {
+  border-color: var(--color-gelb);
+  background: rgba(255, 255, 255, 0.09);
+  outline: none;
+}
+.feld[aria-invalid="true"] { border-color: var(--color-rot); }
+
+select.feld {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.6) 50%),
+                    linear-gradient(135deg, rgba(255,255,255,0.6) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 55%, calc(100% - 14px) 55%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 2.4rem;
+}
+
+select.feld option { background: var(--color-nacht-hoch); color: #fff; }
+
+}
+
+/* ---------------------------------------------------------------------------
+   Bewegung – sparsam und schnell
+--------------------------------------------------------------------------- */
+@keyframes auftauchen {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.auftauchen {
+  animation: auftauchen 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes pochen {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
+
+.pochen { animation: pochen 1.8s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Backdrop-filter ist teuer; wo es fehlt, brauchen die Flaechen mehr Deckkraft,
+   sonst steht der Text auf Suppe. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glas, .glas-knopf { background: rgba(30, 38, 58, 0.94); }
+  .glas-leiste { background: rgba(16, 22, 37, 0.98); }
+}
+
+/* Zahlenfelder ohne Spinner – auf dem Handy stoeren die nur. */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] { -moz-appearance: textfield; }

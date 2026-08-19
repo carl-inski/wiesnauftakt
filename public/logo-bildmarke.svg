@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0 512 512" width="512" height="512" role="img" aria-label="Wiesnauftakt Bildmarke">
+  <!-- PLATZHALTER: bitte durch das Original-Logo der Pfarrjugend SJB ersetzen.
+       viewBox und Seitenverhaeltnis beibehalten, dann passt das Layout ohne Codeaenderung.
+       Details siehe docs/assets.md -->
+  <g transform="translate(4 14)">
+    <!-- Brezn -->
+    <g fill="none" stroke="#FFC61E" stroke-width="34" stroke-linecap="round">
+      <path d="M 122 286 Q 256 442 390 286" />
+      <circle cx="188" cy="262" r="74" />
+      <circle cx="324" cy="262" r="74" />
+    </g>
+
+    <!-- Tirolerhut -->
+    <path d="M 372 132 L 404 92 L 396 142 Z" fill="#FFC61E" />
+    <path d="M 282 196 C 278 140 296 116 330 116 C 364 116 382 140 378 196 Z" fill="#1BA149" />
+    <rect x="286" y="172" width="88" height="20" rx="6" fill="#0D7A37" />
+    <ellipse cx="330" cy="196" rx="94" ry="26" fill="#1BA149" />
+
+    <!-- Masskrug -->
+    <path d="M 96 224 A 42 42 0 1 0 96 308" fill="none" stroke="#FFC61E" stroke-width="26"
+          stroke-linecap="round" />
+    <rect x="92" y="180" width="132" height="190" rx="16" fill="#FFC61E" />
+    <rect x="106" y="216" width="104" height="140" rx="8" fill="#F26522" />
+    <rect x="106" y="216" width="104" height="70" rx="8" fill="#E4322B" />
+    <g fill="#FFFFFF">
+      <rect x="92" y="176" width="132" height="30" rx="15" />
+      <circle cx="124" cy="182" r="30" />
+      <circle cx="158" cy="170" r="34" />
+      <circle cx="194" cy="180" r="28" />
+    </g>
+  </g>
+</svg>

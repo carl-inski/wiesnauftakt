@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 1900" width="1240" height="1900">
+  <rect width="1240" height="1900" fill="#101625" />
+
+  <title>Festsaal – Hülle</title>
+  <desc>Statische Hülle des Saalplans: Wände, Bühne, Bar, Eingang und Tanzfläche.
+        Die Tische werden datengetrieben aus data/tische.json darübergelegt.</desc>
+
+  <g fill="none" stroke="#8f9bb8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Aussenwaende, Luecke unten links = Eingang -->
+    <path d="M 320 1890 L 1182 1890 A 28 28 0 0 0 1210 1862 L 1210 38
+             A 28 28 0 0 0 1182 10 L 58 10 A 28 28 0 0 0 30 38 L 30 1862
+             A 28 28 0 0 0 58 1890 L 110 1890" />
+
+    <!-- Buehne, buendig an der Nordwand -->
+    <path d="M 290 10 L 950 10 L 950 392 A 18 18 0 0 1 932 410 L 308 410
+             A 18 18 0 0 1 290 392 Z" fill="#8f9bb8" fill-opacity="0.07" />
+
+    <!-- Bar, buendig an der Suedwand -->
+    <path d="M 410 1890 L 410 1718 A 18 18 0 0 1 428 1700 L 742 1700
+             A 18 18 0 0 1 760 1718 L 760 1890" fill="#8f9bb8" fill-opacity="0.07" />
+
+    <!-- Tuerschwenk am Eingang -->
+    <path d="M 110 1890 A 210 210 0 0 0 320 1680" stroke-width="3" stroke-dasharray="10 12"
+          opacity="0.75" />
+  </g>
+
+  <g font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+     fill="#8f9bb8" text-anchor="middle">
+    <text x="620" y="228" font-size="58" letter-spacing="14" opacity="0.85">BÜHNE</text>
+    <text x="585" y="1812" font-size="46" letter-spacing="11" opacity="0.85">BAR</text>
+    <text x="188" y="1610" font-size="40" letter-spacing="9" opacity="0.6">EINGANG</text>
+    <text x="520" y="1470" font-size="40" letter-spacing="9" opacity="0.45">TANZFLÄCHE</text>
+  </g>
+
+  <g font-family="ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
+    <rect x="50" y="40" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="140" y="250" font-size="64" font-weight="700" fill="#FFFFFF">1</text>
+    <rect x="1010" y="40" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="1100" y="250" font-size="64" font-weight="700" fill="#FFFFFF">2</text>
+    <rect x="50" y="460" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="140" y="670" font-size="64" font-weight="700" fill="#FFFFFF">3</text>
+    <rect x="290" y="460" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="380" y="670" font-size="64" font-weight="700" fill="#FFFFFF">4</text>
+    <rect x="530" y="460" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="620" y="670" font-size="64" font-weight="700" fill="#FFFFFF">5</text>
+    <rect x="770" y="460" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="860" y="670" font-size="64" font-weight="700" fill="#FFFFFF">6</text>
+    <rect x="1010" y="460" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="1100" y="670" font-size="64" font-weight="700" fill="#FFFFFF">7</text>
+    <rect x="50" y="880" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="140" y="1090" font-size="64" font-weight="700" fill="#FFFFFF">8</text>
+    <rect x="290" y="880" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="380" y="1090" font-size="64" font-weight="700" fill="#FFFFFF">9</text>
+    <rect x="530" y="880" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="620" y="1090" font-size="64" font-weight="700" fill="#FFFFFF">10</text>
+    <rect x="770" y="880" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="860" y="1090" font-size="64" font-weight="700" fill="#FFFFFF">11</text>
+    <rect x="1010" y="880" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="1100" y="1090" font-size="64" font-weight="700" fill="#FFFFFF">12</text>
+    <rect x="1010" y="1300" width="180" height="380" rx="18" fill="#1BA149" fill-opacity="0.18" stroke="#1BA149" stroke-width="4" />
+    <text x="1100" y="1510" font-size="64" font-weight="700" fill="#FFFFFF">13</text>
+  </g>
+</svg>
