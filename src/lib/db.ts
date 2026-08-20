@@ -1,5 +1,6 @@
 import "server-only";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { env } from "./env";
 
 /**
  * Einziger Zugriffsweg auf die Datenbank – und zwar ausschliesslich vom Server.
@@ -13,14 +14,16 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 let client: SupabaseClient | null = null;
 
 export function dbKonfiguriert(): boolean {
-  return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+  return env("SUPABASE_URL") !== undefined && env("SUPABASE_SERVICE_ROLE_KEY") !== undefined;
 }
 
 export function db(): SupabaseClient {
   if (client) return client;
 
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // Ohne /rest/v1 am Ende – genau das steht im Dashboard und wird gern
+  // mitkopiert. Die Bibliothek haengt den Pfad selbst an.
+  const url = env("SUPABASE_URL")?.replace(/\/+(rest\/v1\/?)?$/, "");
+  const key = env("SUPABASE_SERVICE_ROLE_KEY");
 
   if (!url || !key) {
     throw new Error(

@@ -2,6 +2,7 @@ import "server-only";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { env } from "./env";
 
 /**
  * Zugang fuer zwei bis drei Leute. Ein gemeinsames Passwort reicht dafuer und
@@ -13,13 +14,15 @@ const COOKIE = "wa_admin";
 const LAUFZEIT_MS = 12 * 60 * 60 * 1000;
 
 function geheimnis(): string {
-  const s = process.env.ADMIN_SESSION_SECRET ?? process.env.ADMIN_PASSWORT;
+  // Ein leer angelegtes ADMIN_SESSION_SECRET faellt auf ADMIN_PASSWORT zurueck,
+  // statt einen leeren Schluessel durchzureichen.
+  const s = env("ADMIN_SESSION_SECRET") ?? env("ADMIN_PASSWORT");
   if (!s) throw new Error("ADMIN_PASSWORT fehlt. Siehe .env.example.");
   return s;
 }
 
 export function adminKonfiguriert(): boolean {
-  return Boolean(process.env.ADMIN_PASSWORT);
+  return env("ADMIN_PASSWORT") !== undefined;
 }
 
 function signieren(nutzlast: string): string {
@@ -34,7 +37,7 @@ function gleich(a: string, b: string): boolean {
 }
 
 export function passwortPruefen(eingabe: string): boolean {
-  const soll = process.env.ADMIN_PASSWORT;
+  const soll = env("ADMIN_PASSWORT");
   if (!soll) return false;
   // Auf gleiche Laenge bringen, damit der Vergleich nicht ueber die Laenge plaudert.
   return gleich(
@@ -61,14 +64,23 @@ export async function abmelden(): Promise<void> {
 }
 
 export async function angemeldet(): Promise<boolean> {
-  if (!adminKonfiguriert()) return false;
-  const wert = (await cookies()).get(COOKIE)?.value;
-  if (!wert) return false;
+  // Nicht angemeldet zu sein ist ein normaler Zustand, kein Fehler: Was hier
+  // schiefgeht – kaputtes Cookie, fehlende Konfiguration – darf die Seite
+  // niemals mit einem Serverfehler abschiessen, sonst kommt man nicht einmal
+  // mehr ans Anmeldeformular.
+  try {
+    if (!adminKonfiguriert()) return false;
+    const wert = (await cookies()).get(COOKIE)?.value;
+    if (!wert) return false;
 
-  const [ablauf, unterschrift] = wert.split(".");
-  if (!ablauf || !unterschrift) return false;
-  if (!gleich(unterschrift, signieren(ablauf))) return false;
-  return Number(ablauf) > Date.now();
+    const [ablauf, unterschrift] = wert.split(".");
+    if (!ablauf || !unterschrift) return false;
+    if (!gleich(unterschrift, signieren(ablauf))) return false;
+    return Number(ablauf) > Date.now();
+  } catch (e) {
+    console.error("[admin] Sitzung liess sich nicht pruefen:", e);
+    return false;
+  }
 }
 
 /** In jeder Adminseite und jeder Adminaktion die erste Zeile. */

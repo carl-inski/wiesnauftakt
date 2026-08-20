@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { db, dbKonfiguriert } from "@/lib/db";
+import { env } from "@/lib/env";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ export const dynamic = "force-dynamic";
  * Cron (siehe vercel.json), abgesichert ueber CRON_SECRET.
  */
 export async function GET(anfrage: NextRequest) {
-  const geheimnis = process.env.CRON_SECRET;
+  const geheimnis = env("CRON_SECRET");
 
   // Vercel schickt bei gesetztem CRON_SECRET automatisch diesen Header mit.
   if (geheimnis && anfrage.headers.get("authorization") !== `Bearer ${geheimnis}`) {

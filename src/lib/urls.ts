@@ -8,15 +8,18 @@
  * die Vercel-Adresse zurueck.
  */
 
+import { env } from "./env";
+
 function vonVercel(): string {
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL)
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  const produktion = env("VERCEL_PROJECT_PRODUCTION_URL");
+  if (produktion) return `https://${produktion}`;
+  const vorschau = env("VERCEL_URL");
+  if (vorschau) return `https://${vorschau}`;
   return "http://localhost:3000";
 }
 
 export function basisUrl(): string {
-  const roh = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  const roh = env("NEXT_PUBLIC_SITE_URL");
 
   // Nicht gesetzt oder leer: Vercel weiss selbst, wie es heisst.
   if (!roh) return vonVercel();

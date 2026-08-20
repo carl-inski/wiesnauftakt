@@ -1,6 +1,7 @@
 import "server-only";
 import { Resend } from "resend";
 import { db, dbKonfiguriert } from "./db";
+import { env, envOder } from "./env";
 import { einlassZeitpunkt, einstellungenLaden } from "./einstellungen";
 import { aufzaehlung, datumLang } from "./format";
 import type { Reservierung } from "./reservierung";
@@ -12,10 +13,10 @@ import { basisUrl, tischUrl, verwaltungsUrl } from "./urls";
  * direkt auf der Bestaetigungsseite zum Kopieren.
  */
 
-const ABSENDER = process.env.MAIL_ABSENDER ?? "Wiesnauftakt <wiesn@pfarrjugend-sjb.de>";
+const ABSENDER = envOder("MAIL_ABSENDER", "Wiesnauftakt <wiesn@pfarrjugend-sjb.de>");
 
 function resend(): Resend | null {
-  const key = process.env.RESEND_API_KEY;
+  const key = env("RESEND_API_KEY");
   return key ? new Resend(key) : null;
 }
 

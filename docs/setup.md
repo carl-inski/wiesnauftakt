@@ -109,8 +109,13 @@ Repository verbinden, Framework wird automatisch erkannt. Unter
 | `CRON_SECRET` | im Free-Tarif | schuetzt den Wachhalter |
 | `ADMIN_SESSION_SECRET` | optional | sonst wird `ADMIN_PASSWORT` verwendet |
 
-`NEXT_PUBLIC_SITE_URL` ohne Schraegstrich am Ende. Fehlt sie, nimmt die Seite
-die Vercel-Adresse – dann stehen in den Mails Vorschau-URLs.
+Leere Variablen sind unkritisch: Jeder Zugriff laeuft ueber `src/lib/env.ts`,
+das eine leere Variable wie eine fehlende behandelt. Ebenso egal sind ein
+Schraegstrich am Ende, ein fehlendes `https://` und versehentliche Leerzeichen –
+auch ein mitkopiertes `/rest/v1/` an der `SUPABASE_URL` wird abgeschnitten.
+
+Fehlt `NEXT_PUBLIC_SITE_URL`, nimmt die Seite die Vercel-Adresse – dann stehen
+in den Mails Vorschau-URLs.
 
 ## 4. Vor dem Teilen des Links
 
