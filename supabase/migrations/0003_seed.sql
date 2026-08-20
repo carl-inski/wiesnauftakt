@@ -23,20 +23,20 @@ on conflict (key) do nothing;
 
 -- -----------------------------------------------------------------------------
 -- Tische. Die ids entsprechen data/tische.json.
--- Start: 5 Tische online (T03–T06, T08), 5 fest vergeben, 3 noch gesperrt.
+-- Start: 5 Tische online (T03, T04, T06, T08, T12), 4 fest vergeben, 4 gesperrt.
 -- -----------------------------------------------------------------------------
 insert into tische (id, nummer, status, interner_titel) values
-  ('T01',  1, 'intern',   'Band'),
-  ('T02',  2, 'intern',   'SJB-Tisch 1'),
+  ('T01',  1, 'intern',   'Bamhackl/Alumni-Boxe'),
+  ('T02',  2, 'intern',   'Eltern-Ehrenloge'),
   ('T03',  3, 'buchbar',  null),
   ('T04',  4, 'buchbar',  null),
-  ('T05',  5, 'buchbar',  null),
+  ('T05',  5, 'intern',   'SJB-Tisch 1'),
   ('T06',  6, 'buchbar',  null),
-  ('T07',  7, 'intern',   'SJB-Tisch 2'),
+  ('T07',  7, 'gesperrt', null),
   ('T08',  8, 'buchbar',  null),
   ('T09',  9, 'gesperrt', null),
-  ('T10', 10, 'gesperrt', null),
+  ('T10', 10, 'intern',   'SJB-Tisch 2'),
   ('T11', 11, 'gesperrt', null),
-  ('T12', 12, 'intern',   'Eltern'),
-  ('T13', 13, 'intern',   'Alumni / Bamhackl-Boxe')
+  ('T12', 12, 'buchbar',  null),
+  ('T13', 13, 'gesperrt', null)
 on conflict (id) do nothing;

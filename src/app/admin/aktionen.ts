@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import { abmelden, adminKonfiguriert, adminSchutz, anmelden, passwortPruefen } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { STANDARD, type Einstellungen } from "@/lib/einstellungen";
-import { mailAbgelehnt, mailBestaetigt } from "@/lib/mail";
 import { reservierungEntscheiden, reservierungPerId } from "@/lib/reservierung";
 
 import type { Zustand } from "@/lib/formzustand";
@@ -57,11 +56,10 @@ export async function anfrageEntscheiden(formular: FormData): Promise<void> {
     return;
   }
 
-  const reservierung = await reservierungPerId(id);
-  if (reservierung) {
-    if (entscheidung === "bestaetigt") await mailBestaetigt(reservierung);
-    else {
-      await mailAbgelehnt(reservierung, grund || undefined);
+  // Gaeste bekommen keine Mail – sie sehen den Status unter "Meine Buchung".
+  if (entscheidung === "abgelehnt") {
+    const reservierung = await reservierungPerId(id);
+    if (reservierung) {
       // Abgelehnte Plaetze werden wieder frei – Tischnamen ggf. zuruecksetzen.
       await db().rpc("tisch_neu_bewerten", { p_tisch_id: reservierung.tischId });
     }

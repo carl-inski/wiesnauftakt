@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { PlanLegende, Saalplan, type PlanTisch } from "./Saalplan";
+import { Saalplan, type PlanTisch } from "./Saalplan";
 import { Sheet } from "./Sheet";
 
 /**
@@ -41,9 +41,6 @@ export function Saalansicht({
         </div>
       </div>
 
-      <div className="mt-3 px-1">
-        <PlanLegende />
-      </div>
 
       <Sheet
         offen={tisch !== null}

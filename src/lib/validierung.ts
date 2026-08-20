@@ -19,14 +19,6 @@ export const personSchema = z.object({
 
 export type PersonEingabe = z.infer<typeof personSchema>;
 
-export const emailSchema = z
-  .string()
-  .trim()
-  .min(1, "Ohne E-Mail können wir dir den Link nicht schicken")
-  .max(160)
-  .email("Diese E-Mail-Adresse sieht nicht richtig aus")
-  .transform((v) => v.toLowerCase());
-
 export const telefonSchema = z
   .string()
   .trim()
@@ -38,7 +30,6 @@ export const telefonSchema = z
 export const reservierungSchema = z.object({
   tischId: z.string().regex(/^T\d{2}$/, "Unbekannter Tisch"),
   tischName: z.string().trim().max(40, "Maximal 40 Zeichen").optional().or(z.literal("")),
-  email: emailSchema,
   telefon: telefonSchema,
   personen: z.array(personSchema).min(1, "Mindestens eine Person").max(12),
   verstanden: z.literal("ja", { message: "Bitte einmal bestätigen" }),

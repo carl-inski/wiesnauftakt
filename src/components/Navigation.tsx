@@ -52,23 +52,21 @@ export function Navigation() {
   return (
     <nav
       aria-label="Hauptnavigation"
-      className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2"
+      className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[max(0.6rem,env(safe-area-inset-bottom))] pt-2"
     >
-      <ul className="glas-leiste-schwebend flex w-full max-w-sm items-stretch gap-1 rounded-[1.6rem] p-1.5">
+      <ul className="glas-leiste-schwebend flex items-stretch gap-0.5 rounded-full p-1">
         {REITER.map((r) => {
           const ist = aktiv(r.pfad);
           return (
-            <li key={r.pfad} className="flex-1">
+            <li key={r.pfad}>
               <Link
                 href={r.pfad}
                 aria-current={ist ? "page" : undefined}
-                className={`flex flex-col items-center gap-1 rounded-[1.15rem] px-2 py-2.5 text-[0.68rem] font-medium leading-none transition-colors duration-200 ${
-                  ist
-                    ? "bg-white/12 text-white"
-                    : "text-white/45 hover:text-white/75"
+                className={`flex min-w-[4.75rem] flex-col items-center gap-[3px] rounded-full px-3.5 py-2 text-[0.66rem] font-medium leading-none transition-colors duration-200 ${
+                  ist ? "bg-white/10 text-rot-hell" : "text-white/40 hover:text-white/70"
                 }`}
               >
-                <span className={ist ? "text-gelb" : ""}>{r.symbol}</span>
+                {r.symbol}
                 <span className="whitespace-nowrap">{r.name}</span>
               </Link>
             </li>

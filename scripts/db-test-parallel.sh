@@ -22,12 +22,12 @@ exec 3> "$ARBEIT/a.fifo"
 
 # A nimmt 8 von 12 Plaetzen und haelt die Transaktion offen.
 echo "BEGIN;" >&3
-echo "select reservierung_anlegen('T05','Gruppe A','par-a','a@a.de',null,testpersonen(8,'A'));" >&3
+echo "select reservierung_anlegen('T12','Gruppe A','par-a','a@a.de',null,testpersonen(8,'A'));" >&3
 sleep 1
 
 # B will gleichzeitig 8 Plaetze – muss auf die Tischzeile warten.
 ( psql -q -d "$DB" -c \
-    "select reservierung_anlegen('T05','Gruppe B','par-b','b@b.de',null,testpersonen(8,'B'));" \
+    "select reservierung_anlegen('T12','Gruppe B','par-b','b@b.de',null,testpersonen(8,'B'));" \
     > "$ARBEIT/b.out" 2>&1 ) &
 BPID=$!
 sleep 2
@@ -46,7 +46,7 @@ echo
 echo "A: $(grep -c 'personen' "$ARBEIT/a.out" || true) Buchung(en) erfolgreich"
 echo "B: $(cat "$ARBEIT/b.out")"
 echo
-echo -n "Belegung T05 (muss 8 sein): "
-psql -qtA -d "$DB" -c "select tisch_belegt('T05');"
+echo -n "Belegung T12 (muss 8 sein): "
+psql -qtA -d "$DB" -c "select tisch_belegt('T12');"
 
 psql -q -d "$DB" -c "drop function testpersonen(int, text);"

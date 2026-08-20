@@ -30,11 +30,6 @@ export function Belegungsbalken({ gesamt, belegt, kompakt = false }: Eigenschaft
             </>
           )}
         </p>
-        {gesamt > 0 && (
-          <p className="text-xs text-white/50 tabular-nums">
-            {belegt} {belegt === 1 ? "Person" : "Personen"} angemeldet
-          </p>
-        )}
       </div>
 
       <div

@@ -45,7 +45,7 @@ export function AnfrageKarte({
   id: string;
   tischNummer: number;
   tischName: string | null;
-  email: string;
+  email: string | null;
   telefon: string | null;
   erstelltAm: string;
   personen: Person[];
@@ -100,14 +100,18 @@ export function AnfrageKarte({
       )}
 
       <p className="mt-3 text-sm text-white/55">
-        <a href={`mailto:${email}`} className="underline underline-offset-4 hover:text-white">
-          {email}
-        </a>
-        {telefon && (
+        {telefon ? (
+          <a href={`tel:${telefon}`} className="underline underline-offset-4 hover:text-white">
+            {telefon}
+          </a>
+        ) : (
+          <span className="text-white/35">Keine Handynummer angegeben</span>
+        )}
+        {email && (
           <>
             {" · "}
-            <a href={`tel:${telefon}`} className="underline underline-offset-4 hover:text-white">
-              {telefon}
+            <a href={`mailto:${email}`} className="underline underline-offset-4 hover:text-white">
+              {email}
             </a>
           </>
         )}

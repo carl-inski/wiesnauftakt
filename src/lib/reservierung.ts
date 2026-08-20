@@ -23,7 +23,7 @@ export type Reservierung = {
   tischId: string;
   tischNummer: number;
   tischName: string | null;
-  email: string;
+  email: string | null;
   telefon: string | null;
   ablehnungGrund: string | null;
   notizIntern: string | null;
@@ -42,7 +42,7 @@ type RohZeile = {
   token: string;
   status: ReservierungStatus;
   tisch_id: string;
-  kontakt_email: string;
+  kontakt_email: string | null;
   kontakt_telefon: string | null;
   ablehnung_grund: string | null;
   notiz_intern: string | null;
@@ -121,18 +121,6 @@ export async function reservierungPerId(id: string): Promise<Reservierung | null
   return abbilden(data as unknown as RohZeile);
 }
 
-export async function reservierungenPerEmail(email: string): Promise<Reservierung[]> {
-  if (!dbKonfiguriert()) return [];
-  const { data, error } = await db()
-    .from("reservierungen")
-    .select(AUSWAHL)
-    .eq("kontakt_email", email.trim().toLowerCase())
-    .in("status", ["angefragt", "bestaetigt"])
-    .order("erstellt_am", { ascending: false });
-  if (error || !data) return [];
-  return (data as unknown as RohZeile[]).map(abbilden);
-}
-
 export async function alleReservierungen(
   status?: ReservierungStatus[],
 ): Promise<Reservierung[]> {
@@ -151,7 +139,6 @@ export type AnlegenErgebnis =
 export async function reservierungAnlegen(eingabe: {
   tischId: string;
   tischName?: string;
-  email: string;
   telefon?: string;
   personen: PersonEingabe[];
 }): Promise<AnlegenErgebnis> {
@@ -161,7 +148,7 @@ export async function reservierungAnlegen(eingabe: {
     p_tisch_id: eingabe.tischId,
     p_tisch_name: eingabe.tischName?.trim() || null,
     p_token: token,
-    p_email: eingabe.email,
+    p_email: null,
     p_telefon: eingabe.telefon?.trim() || null,
     p_personen: eingabe.personen.map((p) => ({
       vorname: p.vorname,

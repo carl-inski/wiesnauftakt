@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Erfolgsanimation } from "@/components/Erfolgsanimation";
 import { Gaesteverwaltung } from "@/components/Gaesteverwaltung";
 import { Hinweis } from "@/components/Hinweis";
 import { KopierFeld } from "@/components/KopierFeld";
@@ -8,7 +9,6 @@ import { einstellungenLaden } from "@/lib/einstellungen";
 import { aufzaehlung, datumLang, zeitpunktKurz } from "@/lib/format";
 import { reservierungPerToken } from "@/lib/reservierung";
 import { tischLaden } from "@/lib/tische";
-import { mailAktiv } from "@/lib/mail";
 import { tischUrl, verwaltungsUrl } from "@/lib/urls";
 
 export const dynamic = "force-dynamic";
@@ -67,9 +67,13 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
       {/* --------------------------------------------------- Frisch abgeschickt */}
       {neu === "1" && reservierung.status === "angefragt" && (
         <section className="glas mt-5 border-gruen/30 bg-gruen/8 p-5 auftauchen sm:p-6">
-          <h1 className="text-2xl font-bold sm:text-3xl">
-            Passt, {reservierung.personen[0]?.vorname} – deine Anfrage ist da.
+          <Erfolgsanimation />
+          <h1 className="marke mt-4 text-center text-4xl sm:text-5xl">
+            Passt, {reservierung.personen[0]?.vorname}!
           </h1>
+          <p className="mt-2 text-center text-base font-medium text-gruen-hell">
+            Deine Anfrage ist da.
+          </p>
           <p className="mt-2 text-sm leading-relaxed text-white/70">
             {tischTitel} für{" "}
             {reservierung.personen.length === 1
@@ -82,7 +86,7 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
             <Link href="/meine-buchung" className="text-gelb underline underline-offset-4">
               Meine Buchung
             </Link>
-            .{mailAktiv() && " Die Bestätigungsmail kommt zusätzlich."}
+            .
           </p>
         </section>
       )}
@@ -129,11 +133,8 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
         {reservierung.status === "angefragt" && (
           <Hinweis ton="gelb" titel="Noch keine Zusage">
             Wir schauen uns jede Anfrage an und bestätigen sie von Hand. Sobald das
-            passiert ist, steht unter „Meine Buchung“ ein grünes „Bestätigt“
-            {mailAktiv() ? (
-              <> und eine Mail geht an <span className="text-white">{reservierung.email}</span></>
-            ) : null}
-            . Eure Plätze sind aber schon jetzt vorgemerkt.
+            passiert ist, steht unter „Meine Buchung“ ein grünes „Bestätigt“. Eure
+            Plätze sind aber schon jetzt vorgemerkt.
           </Hinweis>
         )}
 

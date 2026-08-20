@@ -54,7 +54,7 @@ export default async function GaesteSeite({ searchParams }: Eigenschaften) {
           id="q"
           name="q"
           defaultValue={q}
-          placeholder="Name, Tisch oder E-Mail suchen"
+          placeholder="Name, Tisch oder Handynummer suchen"
           className="feld min-w-0 flex-1"
         />
         {nurMinderjaehrig && <input type="hidden" name="minderjaehrig" value="1" />}
@@ -140,10 +140,13 @@ export default async function GaesteSeite({ searchParams }: Eigenschaften) {
                     </span>
                   </td>
                   <td className="px-3 py-2.5 text-xs text-white/45">
-                    <a href={`mailto:${g.email}`} className="underline underline-offset-2">
-                      {g.email}
-                    </a>
-                    {g.telefon && <div className="mt-0.5">{g.telefon}</div>}
+                    {g.telefon ? (
+                      <a href={`tel:${g.telefon}`} className="underline underline-offset-2">
+                        {g.telefon}
+                      </a>
+                    ) : (
+                      <span className="text-white/25">—</span>
+                    )}
                   </td>
                   <td className="px-4 py-2.5 text-right">
                     <GastVerschieben

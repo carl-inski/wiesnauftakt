@@ -14,7 +14,7 @@
     <path d="M 290 10 L 950 10 L 950 392 A 18 18 0 0 1 932 410 L 308 410
              A 18 18 0 0 1 290 392 Z" fill="#8f9bb8" fill-opacity="0.07" />
 
-    <!-- Bar, buendig an der Suedwand -->
+    <!-- Schenke, buendig an der Suedwand -->
     <path d="M 410 1890 L 410 1718 A 18 18 0 0 1 428 1700 L 742 1700
              A 18 18 0 0 1 760 1718 L 760 1890" fill="#8f9bb8" fill-opacity="0.07" />
 
@@ -26,7 +26,7 @@
   <g font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
      fill="#8f9bb8" text-anchor="middle">
     <text x="620" y="228" font-size="58" letter-spacing="14" opacity="0.85">BÜHNE</text>
-    <text x="585" y="1812" font-size="46" letter-spacing="11" opacity="0.85">BAR</text>
+    <text x="585" y="1812" font-size="42" letter-spacing="9" opacity="0.85">SCHENKE</text>
     <text x="188" y="1610" font-size="40" letter-spacing="9" opacity="0.6">EINGANG</text>
     <text x="520" y="1470" font-size="40" letter-spacing="9" opacity="0.45">TANZFLÄCHE</text>
   </g>

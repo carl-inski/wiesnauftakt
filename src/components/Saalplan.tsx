@@ -99,11 +99,14 @@ export function Saalplan({
               ? `Tisch ${t.nummer}: noch nicht freigeschaltet`
               : `Tisch ${t.nummer}${t.name ? `, ${t.name}` : ""}: ${t.belegt} von ${t.max} Plätzen belegt${t.frei > 0 ? `, ${t.frei} frei` : ", voll"}`;
 
-        // Kurze Namen passen laengs in den Tisch, lange wuerden ueberstehen.
+        // Der Tisch ist 380 Einheiten hoch; bis rund 22 Zeichen passt der Name
+        // laengs hinein, wenn die Schrift mitwaechst. Laengeres bekommt das
+        // Schloss und steht ausgeschrieben im Sheet.
         const laengsText =
-          t.status === "intern" && t.internerTitel && t.internerTitel.length <= 14
+          t.status === "intern" && t.internerTitel && t.internerTitel.length <= 22
             ? t.internerTitel
             : null;
+        const laengsGroesse = laengsText && laengsText.length > 16 ? 28 : 34;
 
         return (
           <g
@@ -181,9 +184,13 @@ export function Saalplan({
                 x={g.mitte.x}
                 y={g.mitte.y}
                 textAnchor="middle"
-                fontSize={34}
+                fontSize={laengsGroesse}
                 fill="rgba(255,255,255,0.45)"
-                transform={`rotate(-90 ${g.mitte.x} ${g.mitte.y}) translate(0 ${-g.h / 2 + 84})`}
+                /* Nach der Drehung verschiebt translate entlang der Bildschirm-x-
+                   Achse. Der Versatz muss deshalb aus der Tisch*breite* kommen,
+                   nicht aus der Hoehe – sonst steht die Beschriftung neben dem
+                   Tisch statt darin. */
+                transform={`rotate(-90 ${g.mitte.x} ${g.mitte.y}) translate(0 ${-(g.w / 2 - 26)})`}
               >
                 {laengsText}
               </text>
@@ -219,25 +226,3 @@ export function Saalplan({
   );
 }
 
-export function PlanLegende() {
-  const punkte: [string, string][] = [
-    ["#1BA149", "Plätze frei"],
-    ["#F26522", "gut belegt"],
-    ["#E4322B", "voll"],
-    ["rgba(255,255,255,0.28)", "fest vergeben oder gesperrt"],
-  ];
-  return (
-    <ul className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-white/55">
-      {punkte.map(([farbe, text]) => (
-        <li key={text} className="flex items-center gap-1.5">
-          <span
-            className="inline-block h-2.5 w-2.5 rounded-full"
-            style={{ background: farbe }}
-            aria-hidden
-          />
-          {text}
-        </li>
-      ))}
-    </ul>
-  );
-}

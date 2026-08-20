@@ -92,10 +92,12 @@ export function Onboarding({
         {schritt === 1 ? (
           <div key="s1" className="auftauchen flex flex-1 flex-col">
             <div className="flex flex-1 flex-col items-center justify-center text-center">
-              <Logo variante="bildmarke" className="h-40 w-40 sm:h-48 sm:w-48" alt="" />
-              <h1 className="mt-8 text-4xl font-bold tracking-tight sm:text-5xl">
-                Wiesnauftakt
-              </h1>
+              <Logo
+                variante="bildmarke"
+                className="h-56 w-56 sm:h-72 sm:w-72"
+                alt=""
+              />
+              <h1 className="marke mt-7 text-6xl sm:text-7xl">Wiesnauftakt</h1>
               <p className="mt-2.5 text-sm font-semibold uppercase tracking-[0.3em] text-gelb">
                 Pfarrjugend SJB
               </p>
@@ -117,21 +119,32 @@ export function Onboarding({
         ) : (
           <div key="s2" className="auftauchen flex flex-1 flex-col">
             <div className="flex-1 pt-4">
-              <h2 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
+              <h2 className="marke text-5xl sm:text-6xl">
                 Warum überhaupt
                 <br />
                 reservieren?
               </h2>
-              <p className="mt-3 text-base leading-relaxed text-white/60">
-                Weil wir wissen wollen, wer kommt — und weil du was davon hast.
-              </p>
 
-              <ul className="mt-7 space-y-3">
+              <ul className="mt-8 space-y-3">
                 {KACHELN.map((k) => (
-                  <li key={k.titel} className={`rounded-2xl border p-4 ${k.rand}`}>
-                    <div className="flex gap-3.5">
-                      <span className={`mt-0.5 shrink-0 ${k.farbe}`}>{k.symbol}</span>
-                      <div>
+                  <li
+                    key={k.titel}
+                    className={`relative overflow-hidden rounded-2xl border p-4 ${k.rand}`}
+                  >
+                    {k.titel === "Trachtenpin für jeden" && (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src="/pin-mockup.png"
+                        alt=""
+                        aria-hidden
+                        className="pointer-events-none absolute -right-4 -top-4 w-24 rotate-[10deg] drop-shadow-[0_6px_16px_rgba(0,0,0,0.55)] sm:w-28"
+                      />
+                    )}
+                    <div className="relative flex gap-3.5">
+                      {k.titel !== "Trachtenpin für jeden" && (
+                        <span className={`mt-0.5 shrink-0 ${k.farbe}`}>{k.symbol}</span>
+                      )}
+                      <div className={k.titel === "Trachtenpin für jeden" ? "pr-20 sm:pr-24" : ""}>
                         <p className={`text-base font-semibold ${k.farbe}`}>{k.titel}</p>
                         <p className="mt-1 text-sm leading-relaxed text-white/70">
                           {k.titel === "Aber: pünktlich sein" ? (

@@ -64,7 +64,8 @@ export default async function AnfragenSeite() {
                     Tisch {r.tischNummer} · {r.tischName ?? "ohne Namen"}
                   </p>
                   <p className="text-xs text-white/45">
-                    {r.personen.map((p) => p.vorname).join(", ")} · {r.email}
+                    {r.personen.map((p) => p.vorname).join(", ")}
+                    {r.telefon ? ` · ${r.telefon}` : ""}
                   </p>
                 </div>
                 <span

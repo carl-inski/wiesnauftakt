@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Countdown } from "@/components/Countdown";
 import { Hinweis } from "@/components/Hinweis";
+import { Kartenkachel } from "@/components/Kartenkachel";
 import { Logo } from "@/components/Logo";
 import { buchungsschlussZeitpunkt, einlassZeitpunkt, einstellungenLaden } from "@/lib/einstellungen";
 import { datumLang, zeitpunktKurz } from "@/lib/format";
@@ -30,7 +31,7 @@ export default async function InfoSeite() {
     <main id="inhalt" className="mx-auto max-w-2xl px-4 pt-4 sm:px-6 sm:pt-6">
       <div className="text-center">
         <Logo variante="bildmarke" className="mx-auto h-24 w-24" alt="" />
-        <h1 className="mt-4 text-3xl font-bold tracking-tight">Wiesnauftakt</h1>
+        <h1 className="marke mt-4 text-5xl">Wiesnauftakt</h1>
         <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.28em] text-gelb">
           Pfarrjugend SJB
         </p>
@@ -52,6 +53,10 @@ export default async function InfoSeite() {
             wert={`${zeitpunktKurz(buchungsschlussZeitpunkt(e).toISOString())} Uhr`}
           />
         </dl>
+      </section>
+
+      <section className="mt-5">
+        <Kartenkachel ortName={e.ort_name} adresse={e.ort_adresse} />
       </section>
 
       <section className="mt-7">
@@ -106,20 +111,8 @@ export default async function InfoSeite() {
         )}
       </section>
 
-      <footer className="mt-9 border-t border-white/8 pt-6 text-center text-sm text-white/40">
-        <p>Pfarrjugend SJB · Wiesnauftakt {new Date(e.event_datum).getFullYear()}</p>
-        <p className="mt-1.5">
-          Fragen?{" "}
-          <a
-            href={`mailto:${e.kontakt_email}`}
-            className="text-white/60 underline underline-offset-4"
-          >
-            {e.kontakt_email}
-          </a>
-        </p>
-        <p className="mt-4 text-xs text-white/25">
-          Kein Tracking. Gespeichert wird nur, was für die Reservierung nötig ist.
-        </p>
+      <footer className="mt-9 border-t border-white/8 pt-6 text-center text-sm text-white/35">
+        Pfarrjugend SJB · Wiesnauftakt {new Date(e.event_datum).getFullYear()}
       </footer>
     </main>
   );

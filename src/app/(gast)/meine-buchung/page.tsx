@@ -5,7 +5,6 @@ import { KopierFeld } from "@/components/KopierFeld";
 import { eigeneBuchungen } from "@/lib/eigene-buchungen";
 import { einstellungenLaden } from "@/lib/einstellungen";
 import { aufzaehlung, zeitpunktKurz } from "@/lib/format";
-import { mailAktiv } from "@/lib/mail";
 import { tischUrl, verwaltungsUrl } from "@/lib/urls";
 
 export const dynamic = "force-dynamic";
@@ -27,7 +26,7 @@ export default async function MeineBuchungSeite() {
 
   return (
     <main id="inhalt" className="mx-auto max-w-2xl px-4 pt-4 sm:px-6 sm:pt-6">
-      <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Meine Buchung</h1>
+      <h1 className="marke text-4xl sm:text-5xl">Meine Buchung</h1>
 
       {buchungen.length === 0 ? (
         <>
@@ -50,15 +49,8 @@ export default async function MeineBuchungSeite() {
             <Hinweis ton="neutral" titel="Schon reserviert, aber hier ist nichts?">
               Dann warst du vermutlich in einem anderen Browser unterwegs — oder der
               Verlauf wurde gelöscht. Öffne einfach deinen persönlichen Link, dann steht
-              die Buchung auch hier wieder.
-              {mailAktiv() && (
-                <>
-                  {" "}
-                  <Link href="/link" className="text-gelb underline underline-offset-4">
-                    Link nochmal zuschicken lassen
-                  </Link>
-                </>
-              )}
+              die Buchung auch hier wieder. Findest du ihn nicht mehr, meld dich kurz
+              bei uns.
             </Hinweis>
           </div>
         </>

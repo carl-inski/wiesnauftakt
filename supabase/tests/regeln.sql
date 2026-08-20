@@ -126,19 +126,19 @@ update reservierungen set status='angefragt' where token='t-4';
 \echo ''
 \echo '=== 18 Notaus — ERWARTET: RESERVIERUNG_GESCHLOSSEN'
 update einstellungen set wert=to_jsonb(false) where key='reservierung_offen';
-select reservierung_anlegen('T05',null,'t-18','n@n.de',null,testpersonen(1));
+select reservierung_anlegen('T12',null,'t-18','n@n.de',null,testpersonen(1));
 update einstellungen set wert=to_jsonb(true) where key='reservierung_offen';
 
 \echo ''
 \echo '=== 19 Buchungsschluss vorbei — ERWARTET: BUCHUNGSSCHLUSS'
 update einstellungen set wert=to_jsonb('2020-01-01T00:00:00+01:00'::text) where key='buchungsschluss';
-select reservierung_anlegen('T05',null,'t-19','n@n.de',null,testpersonen(1));
+select reservierung_anlegen('T12',null,'t-19','n@n.de',null,testpersonen(1));
 update einstellungen set wert=to_jsonb('2026-09-15T23:59:00+02:00'::text) where key='buchungsschluss';
 
 \echo ''
 \echo '=== 20 Gesamtobergrenze — ERWARTET: GESAMT_OBERGRENZE'
 update einstellungen set wert=to_jsonb(5) where key='gesamt_obergrenze';
-select reservierung_anlegen('T05',null,'t-20','n@n.de',null,testpersonen(3));
+select reservierung_anlegen('T12',null,'t-20','n@n.de',null,testpersonen(3));
 update einstellungen set wert=to_jsonb(130) where key='gesamt_obergrenze';
 
 \echo ''

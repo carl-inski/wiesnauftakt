@@ -1,15 +1,32 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
+   Markenschrift (BrewHouse)
+   Die Datei gehoert nach public/fonts/brewhouse.woff2 – sie liegt aus
+   Lizenzgruenden nicht im Repo. Fehlt sie, greift die Ersatzkette und die
+   Seite bleibt vollstaendig benutzbar; nur der Schriftcharakter fehlt.
+   Selbst gehostet, damit kein Font von einem fremden Server geladen wird.
+--------------------------------------------------------------------------- */
+@font-face {
+  font-family: "BrewHouse";
+  src: url("/fonts/brewhouse.woff2") format("woff2"),
+       url("/fonts/brewhouse.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------------------------
    Farben. Ausgangspunkt ist das Logo; Hintergrund und Textstufen sind auf
    Kontrast hin nachgezogen (Fliesstext liegt bei ~13:1, sekundaerer Text bei
    ~6:1 auf Nachtblau). Rot und Orange sind fuer Text zu dunkel und deshalb
    nur Flaechen- und Randfarben – fuer Text darauf gibt es die -hell-Varianten.
 --------------------------------------------------------------------------- */
 @theme {
-  --color-nacht:       #101625;
-  --color-nacht-tief:  #0a0e18;
-  --color-nacht-hoch:  #182034;
+  /* Aus dem Logo abgenommen: fast schwarzes, nur leicht kuehles Grau. */
+  --color-nacht:       #14161c;
+  --color-nacht-tief:  #0d0e13;
+  --color-nacht-hoch:  #1e212a;
 
   --color-rot:         #e4322b;
   --color-rot-hell:    #ff8079;
@@ -22,6 +39,7 @@
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
                "Helvetica Neue", Arial, sans-serif;
+  --font-marke: "BrewHouse", ui-serif, Georgia, "Times New Roman", serif;
 
   --radius-glas: 1.25rem;
 }
@@ -51,9 +69,9 @@ body {
   /* Zwei sehr weiche Lichter aus dem Logo, damit die Glasflaechen etwas haben,
      wovor sie schweben koennen. */
   background-image:
-    radial-gradient(60rem 40rem at 12% -8%, rgba(228, 50, 43, 0.16), transparent 62%),
-    radial-gradient(48rem 34rem at 96% 4%, rgba(255, 198, 30, 0.11), transparent 58%),
-    radial-gradient(52rem 40rem at 50% 108%, rgba(27, 161, 73, 0.1), transparent 60%);
+    radial-gradient(60rem 40rem at 12% -8%, rgba(228, 50, 43, 0.07), transparent 62%),
+    radial-gradient(48rem 34rem at 96% 4%, rgba(255, 198, 30, 0.05), transparent 58%),
+    radial-gradient(52rem 40rem at 50% 108%, rgba(27, 161, 73, 0.045), transparent 60%);
   background-attachment: fixed;
 }
 
@@ -117,18 +135,18 @@ body {
    weil darunter der Seiteninhalt durchscrollt – bei zu wenig Deckkraft
    flimmern die Beschriftungen. */
 .glas-leiste-schwebend {
-  background: rgba(22, 29, 47, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  background: rgba(46, 50, 62, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(34px) saturate(200%);
+  -webkit-backdrop-filter: blur(34px) saturate(200%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 8px 30px -10px rgba(0, 0, 0, 0.75);
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 10px 34px -12px rgba(0, 0, 0, 0.8);
 }
 
 /* Bottom Sheet */
 .sheet {
-  background: rgba(26, 33, 51, 0.92);
+  background: rgba(30, 33, 42, 0.93);
   border-top: 1px solid rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(30px) saturate(170%);
   -webkit-backdrop-filter: blur(30px) saturate(170%);
@@ -145,9 +163,44 @@ body {
   to   { transform: none; opacity: 1; }
 }
 
+/* Erfolgsanimation: Ring laeuft einmal um, danach zeichnet sich der Haken. */
+.erfolg-ring {
+  stroke-dasharray: 327;
+  stroke-dashoffset: 327;
+  animation: ring-zeichnen 520ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.erfolg-haken {
+  stroke-dasharray: 72;
+  stroke-dashoffset: 72;
+  animation: haken-zeichnen 260ms cubic-bezier(0.4, 0, 0.2, 1) 400ms forwards;
+}
+
+@keyframes ring-zeichnen {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes haken-zeichnen {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .erfolg-ring, .erfolg-haken { stroke-dashoffset: 0; }
+}
+
 @keyframes einblenden {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+/* Ueberschriften in der Markenschrift. Die Ersatzschrift ist deutlich enger,
+   deshalb der Zeilenabstand grosszuegig – so springt das Layout nicht, wenn
+   die eigentliche Schrift nachgeladen wird. */
+.marke {
+  font-family: var(--font-marke);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
 }
 
 /* Grosse Aktionsflaeche, wie in der Vorlage: volle Breite, unten, eindeutig. */
@@ -190,7 +243,7 @@ body {
 /* Sticky-Leiste oben: hier darf das Glas etwas dichter sein, sonst flimmert der
    Text beim Scrollen ueber wechselnden Hintergruenden. */
 .glas-leiste {
-  background: rgba(16, 22, 37, 0.82);
+  background: rgba(20, 22, 28, 0.84);
   backdrop-filter: blur(22px) saturate(160%);
   -webkit-backdrop-filter: blur(22px) saturate(160%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -265,10 +318,10 @@ select.feld option { background: var(--color-nacht-hoch); color: #fff; }
 /* Backdrop-filter ist teuer; wo es fehlt, brauchen die Flaechen mehr Deckkraft,
    sonst steht der Text auf Suppe. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glas, .glas-knopf { background: rgba(30, 38, 58, 0.94); }
-  .glas-leiste { background: rgba(16, 22, 37, 0.98); }
-  .glas-leiste-schwebend { background: rgba(22, 29, 47, 0.98); }
-  .sheet { background: rgba(26, 33, 51, 0.99); }
+  .glas, .glas-knopf { background: rgba(32, 35, 44, 0.94); }
+  .glas-leiste { background: rgba(20, 22, 28, 0.98); }
+  .glas-leiste-schwebend { background: rgba(30, 33, 42, 0.98); }
+  .sheet { background: rgba(30, 33, 42, 0.99); }
 }
 
 /* Zahlenfelder ohne Spinner – auf dem Handy stoeren die nur. */

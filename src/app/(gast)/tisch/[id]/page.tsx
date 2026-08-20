@@ -9,7 +9,6 @@ import { datumLang } from "@/lib/format";
 import { PLAN } from "@/lib/plan";
 import { saalLaden, tischLaden } from "@/lib/tische";
 import { FUELLSTAND_TEXT } from "@/lib/tisch-typen";
-import { mailAktiv } from "@/lib/mail";
 
 export const dynamic = "force-dynamic";
 
@@ -64,7 +63,7 @@ export default async function Tischseite({ params }: Eigenschaften) {
         <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gelb">
           Tisch {tisch.nummer}
         </p>
-        <h1 className="mt-1.5 text-3xl font-bold tracking-tight sm:text-4xl">
+        <h1 className="marke mt-1.5 text-4xl sm:text-5xl">
           {tisch.status === "intern"
             ? (tisch.internerTitel ?? "Fest vergeben")
             : (tisch.name ?? "Noch frei")}
@@ -151,7 +150,6 @@ export default async function Tischseite({ params }: Eigenschaften) {
                 mindestalter={e.mindestalter}
                 eroeffnen={eroeffnen}
                 verfallZeit={e.verfall_zeit}
-                mailAktiv={mailAktiv()}
               />
             </div>
           </>
@@ -186,14 +184,6 @@ export default async function Tischseite({ params }: Eigenschaften) {
         )}
       </section>
 
-      {mailAktiv() && (
-        <p className="mt-10 text-center text-sm text-white/40">
-          Schon reserviert und den Link verlegt?{" "}
-          <Link href="/link" className="text-gelb underline underline-offset-4">
-            Nochmal zuschicken lassen
-          </Link>
-        </p>
-      )}
     </main>
   );
 }

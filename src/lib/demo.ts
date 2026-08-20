@@ -20,8 +20,8 @@ type Vorgabe = {
 };
 
 const VORGABEN: Record<string, Vorgabe> = {
-  T01: { status: "intern", internerTitel: "Band" },
-  T02: { status: "intern", internerTitel: "SJB-Tisch 1" },
+  T01: { status: "intern", internerTitel: "Bamhackl/Alumni-Boxe" },
+  T02: { status: "intern", internerTitel: "Eltern-Ehrenloge" },
   T03: {
     status: "buchbar",
     name: "Zeltlager-Crew",
@@ -34,19 +34,19 @@ const VORGABEN: Record<string, Vorgabe> = {
     vornamen: ["Marie", "Nico", "Ole", "Pia", "Quirin", "Rosa", "Simon",
                "Theo", "Uli", "Vroni"],
   },
-  T05: {
+  T05: { status: "intern", internerTitel: "SJB-Tisch 1" },
+  T06: {
     status: "buchbar",
     name: "Boazn-Fraktion",
     vornamen: ["Wolfi", "Xenia", "Yara", "Zeno", "Alois"],
   },
-  T06: { status: "buchbar", name: "Gruppenstunde Mittwoch", vornamen: ["Bene", "Cilli"] },
-  T07: { status: "intern", internerTitel: "SJB-Tisch 2" },
-  T08: { status: "buchbar" },
+  T07: { status: "gesperrt" },
+  T08: { status: "buchbar", name: "Gruppenstunde Mittwoch", vornamen: ["Bene", "Cilli"] },
   T09: { status: "gesperrt" },
-  T10: { status: "gesperrt" },
+  T10: { status: "intern", internerTitel: "SJB-Tisch 2" },
   T11: { status: "gesperrt" },
-  T12: { status: "intern", internerTitel: "Eltern" },
-  T13: { status: "intern", internerTitel: "Alumni / Bamhackl-Boxe" },
+  T12: { status: "buchbar" },
+  T13: { status: "gesperrt" },
 };
 
 export function demoSaal(e: Einstellungen): SaalUebersicht {

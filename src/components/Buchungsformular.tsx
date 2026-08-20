@@ -26,14 +26,12 @@ export function Buchungsformular({
   mindestalter,
   eroeffnen,
   verfallZeit,
-  mailAktiv,
 }: {
   tischId: string;
   freiePlaetze: number;
   mindestalter: number;
   eroeffnen: boolean;
   verfallZeit: string;
-  mailAktiv: boolean;
 }) {
   const [zustand, absenden] = useActionState(reservierungAbsenden, LEER);
   const { personen, aendern, hinzufuegen, entfernen } = usePersonen();
@@ -90,28 +88,10 @@ export function Buchungsformular({
         <legend className="mb-1.5 text-sm font-semibold text-white/80">
           Wie erreichen wir dich?
         </legend>
-
-        <div>
-          <label htmlFor="email" className="sr-only">
-            E-Mail-Adresse
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            className="feld"
-            placeholder="E-Mail-Adresse"
-            required
-            maxLength={160}
-          />
-          <p className="mt-1.5 text-xs text-white/45">
-            {mailAktiv
-              ? "Hierhin geht dein Verwaltungslink und später die Bestätigung."
-              : "Damit wir dich erreichen, falls am Abend etwas dazwischenkommt."}
-          </p>
-        </div>
+        <p className="mb-3 text-xs text-white/45">
+          Freiwillig. Nur damit wir uns melden können, falls am Abend etwas
+          dazwischenkommt.
+        </p>
 
         <div>
           <label htmlFor="telefon" className="sr-only">
@@ -127,9 +107,7 @@ export function Buchungsformular({
             placeholder="Handynummer (freiwillig)"
             maxLength={40}
           />
-          <p className="mt-1.5 text-xs text-white/45">
-            Nur falls am Abend was ist. Wir schreiben dir nicht einfach so.
-          </p>
+
         </div>
       </fieldset>
 
@@ -172,10 +150,6 @@ export function Buchungsformular({
 
       <Absendeknopf gesperrt={gesperrt} />
 
-      <p className="text-center text-xs leading-relaxed text-white/35">
-        Nachname, Alter und deine Kontaktdaten sehen nur wir. Auf dem Saalplan stehen
-        ausschließlich Tischname und Vornamen.
-      </p>
     </form>
   );
 }
