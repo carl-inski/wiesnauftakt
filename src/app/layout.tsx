@@ -1,8 +1,11 @@
 import type { Metadata, Viewport } from "next";
+import { basisUrl } from "@/lib/urls";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  // basisUrl() faengt leere und schiefe Werte ab – new URL("") hat frueher
+  // den ganzen Build gekippt.
+  metadataBase: new URL(basisUrl()),
   title: {
     default: "Wiesnauftakt 2026 – Pfarrjugend SJB",
     template: "%s · Wiesnauftakt",
