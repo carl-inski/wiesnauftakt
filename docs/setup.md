@@ -19,7 +19,21 @@ Reihenfolge: Datenbank, Mail, Deployment. Dauert zusammen etwa eine halbe Stunde
    Alle drei sind mehrfach ausfuehrbar. `0003_seed.sql` ueberschreibt nichts,
    was spaeter im Orgabereich geaendert wurde.
 
-3. Unter **Settings → API** die Projekt-URL und den **service_role**-Key holen.
+3. Schluessel holen: **Settings → API Keys**
+   (`/dashboard/project/<ref>/settings/api-keys`), Reiter **Publishable and
+   secret API keys**. Gebraucht wird der **geheime** Schluessel
+   (`sb_secret_…`), nicht der publishable. Am schnellsten geht es ueber den
+   gruenen **Connect**-Knopf oben im Dashboard.
+
+   Nicht zu verwechseln mit **Integrations → Data API**: dort steht nur die
+   REST-Adresse, keine Schluessel.
+
+   Aeltere Projekte kennen nur die JWT-Schluessel `anon` und `service_role`;
+   dann tut es der `service_role`-Key genauso. `SUPABASE_SERVICE_ROLE_KEY`
+   nimmt beide Formate.
+
+4. **Settings → Data API** liefert die Projekt-URL. Sie gehoert **ohne**
+   `/rest/v1/` in `SUPABASE_URL` – die Bibliothek haengt den Pfad selbst an.
 
 Nach dem Einspielen lohnt ein Blick in den **Security Advisor** im Dashboard.
 Fuenf Hinweise der Stufe INFO bleiben dort stehen: „RLS enabled, no policy" fuer
