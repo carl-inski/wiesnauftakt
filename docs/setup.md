@@ -80,18 +80,23 @@ supabase link --project-ref <ref>
 supabase db push
 ```
 
-## 2. Mailversand
+## 2. Benachrichtigung ans Orgateam
 
-Bei [Resend](https://resend.com) eine Domain verifizieren (SPF und DKIM setzen)
-und einen API-Key erzeugen. Absender in `MAIL_ABSENDER` eintragen, zum Beispiel
-`Wiesnauftakt <wiesn@pfarrjugend-sjb.de>`.
+**Gaeste bekommen keine Mails** – sie geben auch keine Adresse mehr an, nur
+optional eine Handynummer. Ihren Weg zurueck zur Reservierung kennen der
+Browser (Cookie) und der persoenliche Link.
 
-Ohne `RESEND_API_KEY` laeuft alles weiter, es gehen nur keine Mails raus. Jeder
-Versuch landet in der Tabelle `mail_log`, mit Fehlertext – da schaut man nach,
-wenn jemand sagt, es sei nichts angekommen.
+Die einzige Mail geht ans Orgateam, sobald eine Anfrage eintrifft. Dafuer bei
+[Resend](https://resend.com) einen API-Key erzeugen und als `RESEND_API_KEY`
+eintragen, dazu `ADMIN_MAIL_EMPFAENGER`.
 
-Ein anderer Anbieter ist schnell eingehaengt: nur `senden()` in `src/lib/mail.ts`
-tauscht man aus, die Vorlagen bleiben.
+Ohne eigene Domain funktioniert `onboarding@resend.dev` als Absender – dann
+gehen Mails allerdings nur an die Adresse, der das Resend-Konto gehoert. Fuer
+eine Benachrichtigung an genau diese eine Adresse reicht das. Wer an mehrere
+Leute verteilen will, verifiziert eine eigene Domain (SPF und DKIM).
+
+Ohne `RESEND_API_KEY` laeuft alles weiter, es kommt nur keine Benachrichtigung.
+Jeder Versuch landet in der Tabelle `mail_log`, mit Fehlertext.
 
 ## 3. Vercel
 
@@ -103,8 +108,9 @@ Repository verbinden, Framework wird automatisch erkannt. Unter
 | `SUPABASE_URL` | ja | Datenbank |
 | `SUPABASE_SERVICE_ROLE_KEY` | ja | Datenbank |
 | `ADMIN_PASSWORT` | ja | Zugang zu `/admin` |
-| `RESEND_API_KEY` | fuer Mails | Versand |
-| `MAIL_ABSENDER` | fuer Mails | Absenderadresse |
+| `RESEND_API_KEY` | fuer Benachrichtigung | Versand |
+| `ADMIN_MAIL_EMPFAENGER` | fuer Benachrichtigung | wer sie bekommt |
+| `MAIL_ABSENDER` | fuer Benachrichtigung | Absenderadresse |
 | `NEXT_PUBLIC_SITE_URL` | empfohlen | Links in den Mails |
 | `CRON_SECRET` | im Free-Tarif | schuetzt den Wachhalter |
 | `ADMIN_SESSION_SECRET` | optional | sonst wird `ADMIN_PASSWORT` verwendet |
