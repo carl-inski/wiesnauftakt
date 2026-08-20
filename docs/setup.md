@@ -13,12 +13,18 @@ Reihenfolge: Datenbank, Mail, Deployment. Dauert zusammen etwa eine halbe Stunde
    0001_schema.sql      Tabellen, Indizes, RLS
    0002_funktionen.sql  Kapazitaetsgarantie und Buchungslogik
    0003_seed.sql        Einstellungen und die 13 Tische
+   0004_search_path.sql zieht aeltere Datenbanken nach, sonst folgenlos
    ```
 
    Alle drei sind mehrfach ausfuehrbar. `0003_seed.sql` ueberschreibt nichts,
    was spaeter im Orgabereich geaendert wurde.
 
 3. Unter **Settings → API** die Projekt-URL und den **service_role**-Key holen.
+
+Nach dem Einspielen lohnt ein Blick in den **Security Advisor** im Dashboard.
+Fuenf Hinweise der Stufe INFO bleiben dort stehen: „RLS enabled, no policy" fuer
+jede Tabelle. Das ist kein Versehen, sondern der Entwurf – siehe naechster
+Absatz. Warnungen der Stufe WARN sollten keine auftauchen.
 
 Der service_role-Key umgeht RLS – deshalb steht er nur auf dem Server. Auf allen
 Tabellen ist RLS aktiv und es gibt bewusst **keine einzige Policy**: Wer den

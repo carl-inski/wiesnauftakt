@@ -7,27 +7,36 @@
 -- auf denselben Tisch werden dadurch serialisiert: die zweite sieht die erste
 -- bereits und faellt mit TISCH_VOLL raus. Das gilt fuer jeden Schreibweg,
 -- auch fuer manuelle Inserts aus dem SQL-Editor.
+--
+-- Jede Funktion setzt ausserdem `search_path` fest. Ohne das koennte jemand mit
+-- Schreibrecht auf ein frueher durchsuchtes Schema eigene Funktionen
+-- unterschieben, die dann statt der hiesigen laufen. Supabase' Linter weist
+-- zu Recht darauf hin (function_search_path_mutable).
 -- =============================================================================
 
 -- --- Einstellungen bequem lesen ---------------------------------------------
 create or replace function einstellung_int(p_key text, p_default int)
-returns int language sql stable as $$
+returns int language sql stable
+set search_path = public, pg_temp as $$
   select coalesce((select wert::int from einstellungen where key = p_key), p_default);
 $$;
 
 create or replace function einstellung_bool(p_key text, p_default boolean)
-returns boolean language sql stable as $$
+returns boolean language sql stable
+set search_path = public, pg_temp as $$
   select coalesce((select wert::boolean from einstellungen where key = p_key), p_default);
 $$;
 
 create or replace function einstellung_text(p_key text, p_default text)
-returns text language sql stable as $$
+returns text language sql stable
+set search_path = public, pg_temp as $$
   select coalesce((select wert #>> '{}' from einstellungen where key = p_key), p_default);
 $$;
 
 -- --- Kapazitaet eines konkreten Tisches --------------------------------------
 create or replace function tisch_max_personen(p_tisch_id text)
-returns int language sql stable as $$
+returns int language sql stable
+set search_path = public, pg_temp as $$
   select coalesce(
     (select max_personen from tische where id = p_tisch_id),
     einstellung_int('max_personen_pro_tisch', 12)
@@ -36,7 +45,8 @@ $$;
 
 -- Belegte Plaetze: vorgemerkt zaehlt ab dem Absenden, nicht erst ab Bestaetigung.
 create or replace function tisch_belegt(p_tisch_id text)
-returns int language sql stable as $$
+returns int language sql stable
+set search_path = public, pg_temp as $$
   select count(*)::int
   from gaeste g
   join reservierungen r on r.id = g.reservierung_id
@@ -46,7 +56,8 @@ $$;
 
 -- --- Kapazitaetsgarantie -----------------------------------------------------
 create or replace function gaeste_kapazitaet()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql
+set search_path = public, pg_temp as $$
 declare
   v_max    int;
   v_belegt int;
@@ -76,7 +87,8 @@ create constraint trigger gaeste_kapazitaet_trg
 -- Statuswechsel angefragt/bestaetigt -> zurueck kann nie ueberbuchen, nur der
 -- Weg zurueck in eine zaehlende Reservierung. Deshalb hier ebenfalls pruefen.
 create or replace function reservierung_kapazitaet()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql
+set search_path = public, pg_temp as $$
 declare
   r record;
 begin
@@ -117,6 +129,7 @@ create or replace function reservierung_anlegen(
   p_personen   jsonb   -- [{vorname, nachname, alter_jahre}], erste Person = Kontakt
 ) returns jsonb
 language plpgsql
+set search_path = public, pg_temp
 as $$
 declare
   v_tisch        tische%rowtype;
@@ -216,6 +229,7 @@ create or replace function reservierung_gaeste_setzen(
   p_personen        jsonb   -- [{id?, vorname, nachname, alter_jahre}]
 ) returns jsonb
 language plpgsql
+set search_path = public, pg_temp
 as $$
 declare
   v_res          reservierungen%rowtype;
@@ -291,7 +305,8 @@ $$;
 
 -- --- Gast auf einen anderen Tisch setzen (Adminfunktion) ---------------------
 create or replace function gast_verschieben(p_gast_id uuid, p_tisch_id text)
-returns void language plpgsql as $$
+returns void language plpgsql
+set search_path = public, pg_temp as $$
 begin
   perform 1 from tische where id = p_tisch_id for update;
   if not found then
@@ -305,7 +320,8 @@ $$;
 -- Wird ein Tisch wieder leer (alles storniert/abgelehnt), verliert er seinen
 -- oeffentlichen Namen, damit die naechste Gruppe ihn neu vergeben kann.
 create or replace function tisch_neu_bewerten(p_tisch_id text)
-returns void language plpgsql as $$
+returns void language plpgsql
+set search_path = public, pg_temp as $$
 begin
   if tisch_belegt(p_tisch_id) = 0 then
     update tische
