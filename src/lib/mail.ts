@@ -15,6 +15,11 @@ import { basisUrl, tischUrl, verwaltungsUrl } from "./urls";
 
 const ABSENDER = envOder("MAIL_ABSENDER", "Wiesnauftakt <wiesn@pfarrjugend-sjb.de>");
 
+/** Ob ueberhaupt Mails rausgehen koennen. Steuert, was die Seite verspricht. */
+export function mailAktiv(): boolean {
+  return env("RESEND_API_KEY") !== undefined;
+}
+
 function resend(): Resend | null {
   const key = env("RESEND_API_KEY");
   return key ? new Resend(key) : null;

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db, dbKonfiguriert } from "@/lib/db";
 import { einstellungenLaden } from "@/lib/einstellungen";
+import { onboardingMerken, tokenMerken, tokenVergessen } from "@/lib/eigene-buchungen";
 import { fehlerText } from "@/lib/fehlertexte";
 import {
   mailAnfrageEingegangen,
@@ -68,10 +69,15 @@ export async function reservierungAbsenden(
     return { ok: false, meldung: fehlerText(ergebnis.code, ergebnis.args) };
   }
 
+  // Zuerst merken, dann mailen: Der Browser ist der verlaesslichere Weg
+  // zurueck zur eigenen Reservierung, die Mail nur die Zugabe.
+  await tokenMerken(ergebnis.token);
+
   const reservierung = await reservierungPerToken(ergebnis.token);
   if (reservierung) await mailAnfrageEingegangen(reservierung);
 
   revalidatePath("/");
+  revalidatePath("/meine-buchung");
   redirect(`/reservierung/${ergebnis.token}?neu=1`);
 }
 
@@ -111,7 +117,9 @@ export async function reservierungAbsagen(formular: FormData): Promise<void> {
   if (!reservierung) return;
 
   await reservierungStornieren(reservierung.id, reservierung.tischId);
+  await tokenVergessen(token);
   revalidatePath("/");
+  revalidatePath("/meine-buchung");
   redirect(`/reservierung/${token}?abgesagt=1`);
 }
 
@@ -152,4 +160,11 @@ export async function linkAnfordern(
   if (treffer.length > 0) await mailLinkErneut(email, treffer);
 
   return antwort;
+}
+
+// ---------------------------------------------------------------------------
+// Onboarding
+// ---------------------------------------------------------------------------
+export async function onboardingAbschliessen(): Promise<void> {
+  await onboardingMerken();
 }

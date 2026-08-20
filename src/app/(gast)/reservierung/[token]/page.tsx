@@ -8,6 +8,7 @@ import { einstellungenLaden } from "@/lib/einstellungen";
 import { aufzaehlung, datumLang, zeitpunktKurz } from "@/lib/format";
 import { reservierungPerToken } from "@/lib/reservierung";
 import { tischLaden } from "@/lib/tische";
+import { mailAktiv } from "@/lib/mail";
 import { tischUrl, verwaltungsUrl } from "@/lib/urls";
 
 export const dynamic = "force-dynamic";
@@ -76,6 +77,13 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
               : `${reservierung.personen.length} Personen`}
             : {aufzaehlung(reservierung.personen.map((p) => p.vorname))}.
           </p>
+          <p className="mt-3 text-sm leading-relaxed text-white/70">
+            Gespeichert in diesem Browser — du findest sie jederzeit unter{" "}
+            <Link href="/meine-buchung" className="text-gelb underline underline-offset-4">
+              Meine Buchung
+            </Link>
+            .{mailAktiv() && " Die Bestätigungsmail kommt zusätzlich."}
+          </p>
         </section>
       )}
 
@@ -121,9 +129,11 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
         {reservierung.status === "angefragt" && (
           <Hinweis ton="gelb" titel="Noch keine Zusage">
             Wir schauen uns jede Anfrage an und bestätigen sie von Hand. Sobald das
-            passiert ist, bekommst du eine zweite Mail an{" "}
-            <span className="text-white">{reservierung.email}</span>. Erst die ist die
-            Zusage. Eure Plätze sind aber schon jetzt vorgemerkt.
+            passiert ist, steht unter „Meine Buchung“ ein grünes „Bestätigt“
+            {mailAktiv() ? (
+              <> und eine Mail geht an <span className="text-white">{reservierung.email}</span></>
+            ) : null}
+            . Eure Plätze sind aber schon jetzt vorgemerkt.
           </Hinweis>
         )}
 

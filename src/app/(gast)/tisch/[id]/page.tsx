@@ -9,6 +9,7 @@ import { datumLang } from "@/lib/format";
 import { PLAN } from "@/lib/plan";
 import { saalLaden, tischLaden } from "@/lib/tische";
 import { FUELLSTAND_TEXT } from "@/lib/tisch-typen";
+import { mailAktiv } from "@/lib/mail";
 
 export const dynamic = "force-dynamic";
 
@@ -150,6 +151,7 @@ export default async function Tischseite({ params }: Eigenschaften) {
                 mindestalter={e.mindestalter}
                 eroeffnen={eroeffnen}
                 verfallZeit={e.verfall_zeit}
+                mailAktiv={mailAktiv()}
               />
             </div>
           </>
@@ -184,12 +186,14 @@ export default async function Tischseite({ params }: Eigenschaften) {
         )}
       </section>
 
-      <p className="mt-10 text-center text-sm text-white/40">
-        Schon reserviert und den Link verlegt?{" "}
-        <Link href="/link" className="text-gelb underline underline-offset-4">
-          Nochmal zuschicken lassen
-        </Link>
-      </p>
+      {mailAktiv() && (
+        <p className="mt-10 text-center text-sm text-white/40">
+          Schon reserviert und den Link verlegt?{" "}
+          <Link href="/link" className="text-gelb underline underline-offset-4">
+            Nochmal zuschicken lassen
+          </Link>
+        </p>
+      )}
     </main>
   );
 }

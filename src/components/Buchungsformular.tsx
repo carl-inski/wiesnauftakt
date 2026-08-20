@@ -26,12 +26,14 @@ export function Buchungsformular({
   mindestalter,
   eroeffnen,
   verfallZeit,
+  mailAktiv,
 }: {
   tischId: string;
   freiePlaetze: number;
   mindestalter: number;
   eroeffnen: boolean;
   verfallZeit: string;
+  mailAktiv: boolean;
 }) {
   const [zustand, absenden] = useActionState(reservierungAbsenden, LEER);
   const { personen, aendern, hinzufuegen, entfernen } = usePersonen();
@@ -105,7 +107,9 @@ export function Buchungsformular({
             maxLength={160}
           />
           <p className="mt-1.5 text-xs text-white/45">
-            Hierhin geht dein Verwaltungslink und später die Bestätigung.
+            {mailAktiv
+              ? "Hierhin geht dein Verwaltungslink und später die Bestätigung."
+              : "Damit wir dich erreichen, falls am Abend etwas dazwischenkommt."}
           </p>
         </div>
 
@@ -131,9 +135,12 @@ export function Buchungsformular({
 
       <Hinweis ton="gelb" titel="Bevor du abschickst">
         Das hier ist eine <strong>Anfrage</strong>, noch keine Zusage. Wir bestätigen sie
-        von Hand und melden uns per Mail. Eure Plätze sind ab jetzt trotzdem vorgemerkt,
-        damit euch keiner dazwischenfunkt. Am Abend halten wir den Tisch bis{" "}
-        {verfallZeit} Uhr frei.
+        von Hand. Eure Plätze sind ab jetzt trotzdem vorgemerkt, damit euch keiner
+        dazwischenfunkt. Am Abend halten wir den Tisch bis {verfallZeit} Uhr frei.
+        <br />
+        <br />
+        Deine Buchung wird in diesem Browser gespeichert — du findest sie danach
+        jederzeit unter <strong>Meine Buchung</strong>.
       </Hinweis>
 
       <label className="flex cursor-pointer items-start gap-3 text-sm text-white/75">

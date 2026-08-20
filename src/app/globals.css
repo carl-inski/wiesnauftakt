@@ -113,6 +113,80 @@ body {
   transform: scale(0.985);
 }
 
+/* Schwebende Navigationsleiste unten. Dichter als die uebrigen Glasflaechen,
+   weil darunter der Seiteninhalt durchscrollt – bei zu wenig Deckkraft
+   flimmern die Beschriftungen. */
+.glas-leiste-schwebend {
+  background: rgba(22, 29, 47, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 8px 30px -10px rgba(0, 0, 0, 0.75);
+}
+
+/* Bottom Sheet */
+.sheet {
+  background: rgba(26, 33, 51, 0.92);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(30px) saturate(170%);
+  -webkit-backdrop-filter: blur(30px) saturate(170%);
+  box-shadow: 0 -18px 50px -20px rgba(0, 0, 0, 0.85);
+  animation: sheet-hoch 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.sheet-grund {
+  animation: einblenden 200ms ease-out both;
+}
+
+@keyframes sheet-hoch {
+  from { transform: translateY(16%); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+@keyframes einblenden {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Grosse Aktionsflaeche, wie in der Vorlage: volle Breite, unten, eindeutig. */
+.knopf-gross {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--color-rot);
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 10px 30px -12px rgba(228, 50, 43, 0.75);
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.knopf-gross:hover { background: #ee453e; }
+.knopf-gross:active { transform: scale(0.985); }
+
+.knopf-gross-leise {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 0.9rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.knopf-gross-leise:hover { background: rgba(255, 255, 255, 0.13); }
+.knopf-gross-leise:active { transform: scale(0.985); }
+
 /* Sticky-Leiste oben: hier darf das Glas etwas dichter sein, sonst flimmert der
    Text beim Scrollen ueber wechselnden Hintergruenden. */
 .glas-leiste {
@@ -193,6 +267,8 @@ select.feld option { background: var(--color-nacht-hoch); color: #fff; }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glas, .glas-knopf { background: rgba(30, 38, 58, 0.94); }
   .glas-leiste { background: rgba(16, 22, 37, 0.98); }
+  .glas-leiste-schwebend { background: rgba(22, 29, 47, 0.98); }
+  .sheet { background: rgba(26, 33, 51, 0.99); }
 }
 
 /* Zahlenfelder ohne Spinner – auf dem Handy stoeren die nur. */
