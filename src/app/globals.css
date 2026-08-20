@@ -23,10 +23,10 @@
    nur Flaechen- und Randfarben – fuer Text darauf gibt es die -hell-Varianten.
 --------------------------------------------------------------------------- */
 @theme {
-  /* Aus dem Logo abgenommen: fast schwarzes, nur leicht kuehles Grau. */
-  --color-nacht:       #14161c;
-  --color-nacht-tief:  #0d0e13;
-  --color-nacht-hoch:  #1e212a;
+  /* Tiefes Blauschwarz, abgenommen vom Referenzscreenshot. */
+  --color-nacht:       #0f131b;
+  --color-nacht-tief:  #090c12;
+  --color-nacht-hoch:  #191e29;
 
   --color-rot:         #e4322b;
   --color-rot-hell:    #ff8079;
@@ -146,7 +146,7 @@ body {
 
 /* Bottom Sheet */
 .sheet {
-  background: rgba(30, 33, 42, 0.93);
+  background: rgba(26, 31, 42, 0.93);
   border-top: 1px solid rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(30px) saturate(170%);
   -webkit-backdrop-filter: blur(30px) saturate(170%);
@@ -243,7 +243,7 @@ body {
 /* Sticky-Leiste oben: hier darf das Glas etwas dichter sein, sonst flimmert der
    Text beim Scrollen ueber wechselnden Hintergruenden. */
 .glas-leiste {
-  background: rgba(20, 22, 28, 0.84);
+  background: rgba(15, 19, 27, 0.86);
   backdrop-filter: blur(22px) saturate(160%);
   -webkit-backdrop-filter: blur(22px) saturate(160%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -318,10 +318,10 @@ select.feld option { background: var(--color-nacht-hoch); color: #fff; }
 /* Backdrop-filter ist teuer; wo es fehlt, brauchen die Flaechen mehr Deckkraft,
    sonst steht der Text auf Suppe. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glas, .glas-knopf { background: rgba(32, 35, 44, 0.94); }
-  .glas-leiste { background: rgba(20, 22, 28, 0.98); }
-  .glas-leiste-schwebend { background: rgba(30, 33, 42, 0.98); }
-  .sheet { background: rgba(30, 33, 42, 0.99); }
+  .glas, .glas-knopf { background: rgba(28, 33, 44, 0.94); }
+  .glas-leiste { background: rgba(15, 19, 27, 0.98); }
+  .glas-leiste-schwebend { background: rgba(30, 35, 46, 0.98); }
+  .sheet { background: rgba(26, 31, 42, 0.99); }
 }
 
 /* Zahlenfelder ohne Spinner – auf dem Handy stoeren die nur. */

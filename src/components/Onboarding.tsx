@@ -166,7 +166,7 @@ export function Onboarding({
 
             <div className="mt-8 space-y-2">
               <button type="button" onClick={abschliessen} className="knopf-gross">
-                Passt, zum Saalplan
+                Passt, zur Festhalle
               </button>
               <button
                 type="button"

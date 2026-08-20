@@ -75,6 +75,12 @@ export default async function EinstellungenSeite() {
       hilfe: "Landet im Kalendereintrag der Bestätigungsmail.",
     },
     {
+      schluessel: "maps_link",
+      beschriftung: "Google-Maps-Link",
+      wert: e.maps_link,
+      hilfe: "Ziel des Knopfes unter der Karte auf der Infoseite.",
+    },
+    {
       schluessel: "kontakt_email",
       beschriftung: "Kontaktadresse",
       wert: e.kontakt_email,

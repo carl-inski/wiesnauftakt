@@ -15,6 +15,7 @@ export type Einstellungen = {
   ort_name: string;
   ort_adresse: string;
   kontakt_email: string;
+  maps_link: string;
   hinweis_startseite: string;
 };
 
@@ -34,8 +35,9 @@ export const STANDARD: Einstellungen = {
   gesamt_obergrenze: 130,
   reservierung_offen: true,
   ort_name: "Jugendheim SJB Haidhausen",
-  ort_adresse: "München",
+  ort_adresse: "Kirchenstraße 37, 81675 München",
   kontakt_email: "wiesnauftakt@pfarrjugend-sjb.de",
+  maps_link: "https://maps.app.goo.gl/rkstZvriJ1chQuAVA",
   hinweis_startseite: "",
 };
 
@@ -52,6 +54,7 @@ export const EINSTELLUNG_BESCHRIFTUNG: Record<keyof Einstellungen, string> = {
   ort_name: "Ort",
   ort_adresse: "Adresse",
   kontakt_email: "Kontaktadresse",
+  maps_link: "Google-Maps-Link für den Knopf unter der Karte",
   hinweis_startseite: "Hinweisbanner auf der Startseite",
 };
 

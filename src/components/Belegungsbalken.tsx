@@ -17,20 +17,23 @@ export function Belegungsbalken({ gesamt, belegt, kompakt = false }: Eigenschaft
     anteil >= 100 ? "bg-rot" : anteil >= 80 ? "bg-orange" : "bg-gruen";
 
   return (
-    <div className={kompakt ? "" : "glas p-4 sm:p-5"}>
-      <div className="mb-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-        <p className={kompakt ? "text-sm font-medium" : "text-base font-semibold sm:text-lg"}>
+    <div className={kompakt ? "" : "glas flex flex-col justify-between p-4 sm:p-5"}>
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest text-white/40">
+          Freie Plätze
+        </p>
+        <p className="mt-1 text-2xl font-semibold tabular-nums sm:text-3xl">
           {gesamt === 0 ? (
-            "Noch keine Tische freigeschaltet"
-          ) : frei === 0 ? (
-            <>Alle {gesamt} Plätze vergeben</>
+            <span className="text-lg font-medium text-white/60">noch keine</span>
           ) : (
             <>
-              Noch <span className="text-gelb">{frei}</span> von {gesamt} Plätzen frei
+              <span className={frei === 0 ? "text-rot-hell" : "text-gelb"}>{frei}</span>
+              <span className="text-base font-medium text-white/40"> von {gesamt}</span>
             </>
           )}
         </p>
       </div>
+      <div className="mt-3">
 
       <div
         className="h-2 w-full overflow-hidden rounded-full bg-white/10"
@@ -44,6 +47,7 @@ export function Belegungsbalken({ gesamt, belegt, kompakt = false }: Eigenschaft
           className={`h-full rounded-full ${farbe} transition-[width] duration-300 ease-out`}
           style={{ width: `${anteil}%` }}
         />
+      </div>
       </div>
     </div>
   );

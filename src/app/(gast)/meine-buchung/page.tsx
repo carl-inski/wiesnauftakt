@@ -37,11 +37,11 @@ export default async function MeineBuchungSeite() {
           <div className="glas mt-6 p-6 text-center">
             <p className="text-base font-semibold">Noch nichts reserviert</p>
             <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-white/60">
-              Such dir im Saalplan einen Tisch aus. Sobald du reserviert hast, findest du
+              Such dir in der Festhalle einen Tisch aus. Sobald du reserviert hast, findest du
               hier deine Buchung und den Link für die Gruppe.
             </p>
             <Link href="/" className="knopf-gross mt-6">
-              Zum Saalplan
+              Zur Festhalle
             </Link>
           </div>
 

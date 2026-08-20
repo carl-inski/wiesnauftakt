@@ -30,7 +30,7 @@ export default async function InfoSeite() {
   return (
     <main id="inhalt" className="mx-auto max-w-2xl px-4 pt-4 sm:px-6 sm:pt-6">
       <div className="text-center">
-        <Logo variante="bildmarke" className="mx-auto h-24 w-24" alt="" />
+        <Logo variante="bildmarke" className="mx-auto h-44 w-44 sm:h-52 sm:w-52" alt="" />
         <h1 className="marke mt-4 text-5xl">Wiesnauftakt</h1>
         <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.28em] text-gelb">
           Pfarrjugend SJB
@@ -56,7 +56,7 @@ export default async function InfoSeite() {
       </section>
 
       <section className="mt-5">
-        <Kartenkachel ortName={e.ort_name} adresse={e.ort_adresse} />
+        <Kartenkachel ortName={e.ort_name} adresse={e.ort_adresse} mapsLink={e.maps_link} />
       </section>
 
       <section className="mt-7">
@@ -111,9 +111,6 @@ export default async function InfoSeite() {
         )}
       </section>
 
-      <footer className="mt-9 border-t border-white/8 pt-6 text-center text-sm text-white/35">
-        Pfarrjugend SJB · Wiesnauftakt {new Date(e.event_datum).getFullYear()}
-      </footer>
     </main>
   );
 }

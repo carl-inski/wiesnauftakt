@@ -10,12 +10,23 @@ import { useState } from "react";
  * nach einem Klick geladen – bis dahin steht hier nur die Adresse. Das ist auf
  * deutschen Seiten die uebliche Loesung und kostet genau einen Fingertipp.
  */
-export function Kartenkachel({ ortName, adresse }: { ortName: string; adresse: string }) {
+export function Kartenkachel({
+  ortName,
+  adresse,
+  mapsLink,
+}: {
+  ortName: string;
+  adresse: string;
+  mapsLink: string;
+}) {
   const [geladen, setGeladen] = useState(false);
 
-  const suche = encodeURIComponent(`${ortName}, ${adresse}`);
+  // Die Karte selbst laeuft ueber die Adresse, weil ein Kurzlink im Rahmen
+  // nicht funktioniert. Der Knopf unten nimmt den gepflegten Link, falls einer
+  // hinterlegt ist.
+  const suche = encodeURIComponent(adresse || ortName);
   const einbettung = `https://www.google.com/maps?q=${suche}&output=embed`;
-  const extern = `https://www.google.com/maps/search/?api=1&query=${suche}`;
+  const extern = mapsLink.trim() || `https://www.google.com/maps/search/?api=1&query=${suche}`;
 
   return (
     <div className="glas overflow-hidden">

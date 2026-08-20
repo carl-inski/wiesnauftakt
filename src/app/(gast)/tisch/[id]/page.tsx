@@ -56,7 +56,7 @@ export default async function Tischseite({ params }: Eigenschaften) {
         href="/#tische"
         className="inline-flex items-center gap-1.5 text-sm text-white/50 transition hover:text-white"
       >
-        <span aria-hidden>←</span> Zurück zum Saalplan
+        <span aria-hidden>←</span> Zurück zur Festhalle
       </Link>
 
       <header className="mt-5">
@@ -169,7 +169,7 @@ export default async function Tischseite({ params }: Eigenschaften) {
               </Hinweis>
             ) : (
               <Hinweis ton="rot" titel="Der Tisch ist voll">
-                Hier passt niemand mehr dazu. Auf dem Saalplan sind aber noch andere
+                Hier passt niemand mehr dazu. In der Festhalle sind aber noch andere
                 Tische offen.
               </Hinweis>
             )}

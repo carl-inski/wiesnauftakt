@@ -161,7 +161,7 @@ export function AnfrageKarte({
                 rows={3}
                 maxLength={500}
                 className="feld text-sm"
-                placeholder="z. B. Der Saal ist leider voll – meld dich gern, falls jemand abspringt."
+                placeholder="z. B. Die Festhalle ist leider voll – meld dich gern, falls jemand abspringt."
               />
               <div className="flex flex-wrap gap-2">
                 <Knopf kind="Ablehnen und Mail schicken" farbe="bg-rot text-white hover:bg-rot/85" />

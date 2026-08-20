@@ -59,7 +59,7 @@ export function Saalplan({
       viewBox={viewBox}
       className="h-full w-full"
       role="group"
-      aria-label="Saalplan mit 13 Tischen"
+      aria-label="Plan der Festhalle mit 13 Tischen"
     >
       <defs>
         <filter id={`${id}-schein`} x="-40%" y="-40%" width="180%" height="180%">
@@ -99,13 +99,17 @@ export function Saalplan({
               ? `Tisch ${t.nummer}: noch nicht freigeschaltet`
               : `Tisch ${t.nummer}${t.name ? `, ${t.name}` : ""}: ${t.belegt} von ${t.max} Plätzen belegt${t.frei > 0 ? `, ${t.frei} frei` : ", voll"}`;
 
-        // Der Tisch ist 380 Einheiten hoch; bis rund 22 Zeichen passt der Name
-        // laengs hinein, wenn die Schrift mitwaechst. Laengeres bekommt das
-        // Schloss und steht ausgeschrieben im Sheet.
-        const laengsText =
-          t.status === "intern" && t.internerTitel && t.internerTitel.length <= 22
-            ? t.internerTitel
-            : null;
+        // Laengs an der Tischkante steht der Name: bei fest vergebenen Tischen
+        // die interne Bezeichnung, bei buchbaren der Name, den die eroeffnende
+        // Gruppe vergeben hat. Der Tisch ist 380 Einheiten hoch, bis rund 22
+        // Zeichen passt es, wenn die Schrift mitwaechst; Laengeres wird
+        // abgekuerzt und steht vollstaendig im Sheet.
+        const rohName = t.status === "intern" ? t.internerTitel : t.name;
+        const laengsText = rohName
+          ? rohName.length <= 22
+            ? rohName
+            : `${rohName.slice(0, 21)}…`
+          : null;
         const laengsGroesse = laengsText && laengsText.length > 16 ? 28 : 34;
 
         return (
@@ -185,7 +189,7 @@ export function Saalplan({
                 y={g.mitte.y}
                 textAnchor="middle"
                 fontSize={laengsGroesse}
-                fill="rgba(255,255,255,0.45)"
+                fill={t.status === "buchbar" ? "rgba(255,255,255,0.72)" : "rgba(255,255,255,0.45)"}
                 /* Nach der Drehung verschiebt translate entlang der Bildschirm-x-
                    Achse. Der Versatz muss deshalb aus der Tisch*breite* kommen,
                    nicht aus der Hoehe – sonst steht die Beschriftung neben dem

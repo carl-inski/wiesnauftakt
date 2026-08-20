@@ -17,7 +17,7 @@ export function fehlerText(code: DbFehler, args: string[] = []): string {
     case "TISCH_NICHT_BUCHBAR":
       return "Dieser Tisch ist gerade nicht buchbar. Vielleicht haben wir ihn eben zugemacht – schau nochmal auf den Plan.";
     case "TISCH_UNBEKANNT":
-      return "Diesen Tisch kennen wir nicht. Geh nochmal über den Saalplan.";
+      return "Diesen Tisch kennen wir nicht. Geh nochmal über den Plan der Festhalle.";
     case "MINDESTALTER":
       return `Eine Reservierung ist leider nicht möglich. Wende dich bitte privat an die Pfarrjugend – ab ${args[0] ?? 16} Jahren geht es über die Seite.`;
     case "GESAMT_OBERGRENZE": {
@@ -25,7 +25,7 @@ export function fehlerText(code: DbFehler, args: string[] = []): string {
       if (Number.isFinite(rest) && rest > 0) {
         return `So viele Leute passen nicht mehr rein – es sind nur noch ${rest === 1 ? "1 Platz" : `${rest} Plätze`} im Saal frei.`;
       }
-      return "Der Saal ist voll. Mehr Leute dürfen wir nicht reinlassen.";
+      return "Die Festhalle ist voll. Mehr Leute dürfen wir nicht reinlassen.";
     }
     case "BUCHUNGSSCHLUSS":
       return "Der Buchungsschluss ist durch. Meld dich direkt bei uns, vielleicht geht noch was.";

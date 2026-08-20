@@ -34,7 +34,7 @@ const Infosymbol = (
 );
 
 const REITER: Reiter[] = [
-  { pfad: "/", name: "Saalplan", symbol: Saalplansymbol },
+  { pfad: "/", name: "Festhalle", symbol: Saalplansymbol },
   { pfad: "/meine-buchung", name: "Meine Buchung", symbol: Buchungssymbol },
   { pfad: "/infos", name: "Infos", symbol: Infosymbol },
 ];
@@ -54,15 +54,15 @@ export function Navigation() {
       aria-label="Hauptnavigation"
       className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[max(0.6rem,env(safe-area-inset-bottom))] pt-2"
     >
-      <ul className="glas-leiste-schwebend flex items-stretch gap-0.5 rounded-full p-1">
+      <ul className="glas-leiste-schwebend flex w-full max-w-xs items-stretch gap-0.5 rounded-full p-1">
         {REITER.map((r) => {
           const ist = aktiv(r.pfad);
           return (
-            <li key={r.pfad}>
+            <li key={r.pfad} className="flex-1">
               <Link
                 href={r.pfad}
                 aria-current={ist ? "page" : undefined}
-                className={`flex min-w-[4.75rem] flex-col items-center gap-[3px] rounded-full px-3.5 py-2 text-[0.66rem] font-medium leading-none transition-colors duration-200 ${
+                className={`flex w-full flex-col items-center gap-[3px] rounded-full px-1 py-2 text-[0.66rem] font-medium leading-none transition-colors duration-200 ${
                   ist ? "bg-white/10 text-rot-hell" : "text-white/40 hover:text-white/70"
                 }`}
               >
