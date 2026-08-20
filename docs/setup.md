@@ -24,6 +24,35 @@ Der service_role-Key umgeht RLS – deshalb steht er nur auf dem Server. Auf all
 Tabellen ist RLS aktiv und es gibt bewusst **keine einzige Policy**: Wer den
 anon-Key in die Hand bekommt, sieht damit nichts.
 
+### Kostenloser Tarif: der eine Haken
+
+Fuer diese Seite reicht der Free-Plan von Supabase ohne Abstriche. 130 Personen
+sind ein paar hundert Zeilen – von den 500 MB Datenbank sieht man nichts.
+
+Ein Punkt ist aber wichtig: **Supabase pausiert Projekte im kostenlosen Tarif,
+wenn sie ueber sieben Tage zu wenig Aktivitaet sehen.** Laut
+[Doku](https://supabase.com/docs/guides/platform/free-project-pausing) genuegen
+"a few user requests to the database each day" zum Wachbleiben. Passiert es
+doch, ist die Seite kaputt, bis jemand im Dashboard auf *Resume project*
+klickt – ausgerechnet dann, wenn nach einer ruhigen Woche der erste den
+Instagram-Link antippt.
+
+Dagegen laeuft `/api/wachhalten`: ein Endpunkt, der zwei winzige Abfragen macht
+und von Vercel Cron einmal taeglich aufgerufen wird (`vercel.json`, 05:00 UTC).
+Zusammen mit dem echten Verkehr reicht das. Zwei Dinge dafuer:
+
+- `CRON_SECRET` auf Vercel setzen (beliebige lange Zufallszeichenkette) –
+  Vercel schickt sie dann automatisch mit, und der Endpunkt weist alles andere
+  mit 401 ab.
+- Nach dem ersten Deploy unter **Settings → Cron Jobs** kontrollieren, dass der
+  Job gelistet ist. Auf dem Hobby-Plan laeuft er einmal taeglich, ungefaehr zur
+  angegebenen Zeit.
+
+Supabase warnt ausserdem rund eine Woche vorher per Mail, bevor ein Projekt
+pausiert wird – die Adresse des Projekteigentuemers sollte also jemand lesen.
+Und selbst ein pausiertes Projekt laesst sich 90 Tage lang mit einem Klick
+zurueckholen, ohne Datenverlust.
+
 Mit der Supabase-CLI geht es auch ohne Copy-Paste:
 
 ```bash
@@ -57,6 +86,7 @@ Repository verbinden, Framework wird automatisch erkannt. Unter
 | `RESEND_API_KEY` | fuer Mails | Versand |
 | `MAIL_ABSENDER` | fuer Mails | Absenderadresse |
 | `NEXT_PUBLIC_SITE_URL` | empfohlen | Links in den Mails |
+| `CRON_SECRET` | im Free-Tarif | schuetzt den Wachhalter |
 | `ADMIN_SESSION_SECRET` | optional | sonst wird `ADMIN_PASSWORT` verwendet |
 
 `NEXT_PUBLIC_SITE_URL` ohne Schraegstrich am Ende. Fehlt sie, nimmt die Seite
@@ -70,6 +100,8 @@ die Vercel-Adresse – dann stehen in den Mails Vorschau-URLs.
       gehen online
 - [ ] Eine Testreservierung durchgespielt und beide Mails angeschaut
 - [ ] `ADMIN_PASSWORT` an die zwei bis drei Leute weitergegeben, die es brauchen
+- [ ] Im kostenlosen Supabase-Tarif: Cron-Job unter Vercel → Settings → Cron Jobs
+      sichtbar, `CRON_SECRET` gesetzt
 
 ## Datenbank testen
 

@@ -89,6 +89,12 @@ waehrend darunter dieselbe Auswahl als Kartenliste steht, wo mehr Platz fuer
 Tischname, Belegung und Vornamen ist. Beide Ansichten teilen sich eine
 Auswahl.
 
+**Laeuft komplett im kostenlosen Tarif.** Supabase Free, Vercel Hobby, Resend
+Free – bei rund 130 Personen und zwei Mails pro Reservierung ist keine Grenze
+in Sichtweite. Einziger Haken ist das Pausieren inaktiver Free-Projekte nach
+sieben Tagen; dagegen laeuft `/api/wachhalten`, taeglich angestossen von Vercel
+Cron. Details in [`docs/setup.md`](docs/setup.md).
+
 **Bewegung sparsam.** Uebergaenge unter 300 ms, `prefers-reduced-motion` wird
 respektiert. Systemschriften, keine externen Fonts, kein Tracking, kein
 Cookie-Banner – das einzige Cookie ist die Anmeldung im Orgabereich.
