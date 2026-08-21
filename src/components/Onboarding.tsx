@@ -33,7 +33,7 @@ const KACHELN: Kachel[] = [
   },
   {
     titel: "Trachtenpin für jeden",
-    text: "Jede angemeldete Person bekommt am Einlass ihren exklusiven SJB-Trachtenpin. Einer pro Person, nicht einer pro Tisch.",
+    text: "Jede angemeldete Person bekommt am Einlass ihren SJB-Trachtenpin. Einer pro Person, nicht pro Tisch.",
     farbe: "text-gelb",
     rand: "border-gelb/30 bg-gelb/10",
     symbol: (
@@ -137,14 +137,14 @@ export function Onboarding({
                         src="/pin-mockup.png"
                         alt=""
                         aria-hidden
-                        className="pointer-events-none absolute -right-4 -top-4 w-24 rotate-[10deg] drop-shadow-[0_6px_16px_rgba(0,0,0,0.55)] sm:w-28"
+                        className="pointer-events-none absolute -right-5 -top-5 w-32 rotate-[10deg] drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)] sm:w-36"
                       />
                     )}
                     <div className="relative flex gap-3.5">
                       {k.titel !== "Trachtenpin für jeden" && (
                         <span className={`mt-0.5 shrink-0 ${k.farbe}`}>{k.symbol}</span>
                       )}
-                      <div className={k.titel === "Trachtenpin für jeden" ? "pr-20 sm:pr-24" : ""}>
+                      <div className={k.titel === "Trachtenpin für jeden" ? "pr-24 sm:pr-28" : ""}>
                         <p className={`text-base font-semibold ${k.farbe}`}>{k.titel}</p>
                         <p className="mt-1 text-sm leading-relaxed text-white/70">
                           {k.titel === "Aber: pünktlich sein" ? (
