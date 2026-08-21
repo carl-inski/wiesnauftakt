@@ -5,6 +5,7 @@ import { Erfolgsanimation } from "@/components/Erfolgsanimation";
 import { Gaesteverwaltung } from "@/components/Gaesteverwaltung";
 import { Hinweis } from "@/components/Hinweis";
 import { KopierFeld } from "@/components/KopierFeld";
+import { NachObenSpringen } from "@/components/NachObenSpringen";
 import { einstellungenLaden } from "@/lib/einstellungen";
 import { aufzaehlung, datumLang, zeitpunktKurz } from "@/lib/format";
 import { reservierungPerToken } from "@/lib/reservierung";
@@ -67,6 +68,7 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
       {/* --------------------------------------------------- Frisch abgeschickt */}
       {neu === "1" && reservierung.status === "angefragt" && (
         <section className="glas mt-5 border-gruen/30 bg-gruen/8 p-5 auftauchen sm:p-6">
+          <NachObenSpringen />
           <Erfolgsanimation />
           <h1 className="marke mt-4 text-center text-4xl sm:text-5xl">
             Passt, {reservierung.personen[0]?.vorname}!
@@ -242,13 +244,6 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
           </Hinweis>
         </section>
       )}
-
-      <p className="mt-10 text-center text-sm text-white/40">
-        Fragen?{" "}
-        <a href={`mailto:${e.kontakt_email}`} className="text-gelb underline underline-offset-4">
-          {e.kontakt_email}
-        </a>
-      </p>
     </main>
   );
 }

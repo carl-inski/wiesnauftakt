@@ -19,18 +19,24 @@ const TITELFARBE: Record<Ton, string> = {
 export function Hinweis({
   ton = "neutral",
   titel,
+  bild,
   children,
 }: {
   ton?: Ton;
   titel?: string;
+  /** Optionales Bild in der Ecke. Der Text rueckt dann rechts aus dem Weg. */
+  bild?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
-    <div className={`rounded-2xl border p-4 ${STIL[ton]}`}>
-      {titel && (
-        <p className={`mb-1 text-sm font-semibold ${TITELFARBE[ton]}`}>{titel}</p>
-      )}
-      <div className="text-sm leading-relaxed text-white/75">{children}</div>
+    <div className={`relative overflow-hidden rounded-2xl border p-4 ${STIL[ton]}`}>
+      {bild}
+      <div className={bild ? "relative pr-24 sm:pr-28" : undefined}>
+        {titel && (
+          <p className={`mb-1 text-sm font-semibold ${TITELFARBE[ton]}`}>{titel}</p>
+        )}
+        <div className="text-sm leading-relaxed text-white/75">{children}</div>
+      </div>
     </div>
   );
 }
