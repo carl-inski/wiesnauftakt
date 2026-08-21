@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { onboardingAbschliessen } from "@/app/actions";
 import { Logo } from "./Logo";
-import { Trachtenpin } from "./Trachtenpin";
+import { TRACHTENPIN_PLATZ, Trachtenpin } from "./Trachtenpin";
 
 /**
  * Zwei Schritte beim ersten Besuch: erst worum es geht, dann warum man
@@ -137,7 +137,7 @@ export function Onboarding({
                       {k.titel !== "Trachtenpin für jeden" && (
                         <span className={`mt-0.5 shrink-0 ${k.farbe}`}>{k.symbol}</span>
                       )}
-                      <div className={k.titel === "Trachtenpin für jeden" ? "pr-24 sm:pr-28" : ""}>
+                      <div className={k.titel === "Trachtenpin für jeden" ? TRACHTENPIN_PLATZ : ""}>
                         <p className={`text-base font-semibold ${k.farbe}`}>{k.titel}</p>
                         <p className="mt-1 text-sm leading-relaxed text-white/70">
                           {k.titel === "Aber: pünktlich sein" ? (

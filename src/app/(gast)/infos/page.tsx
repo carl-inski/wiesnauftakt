@@ -4,7 +4,7 @@ import { Countdown } from "@/components/Countdown";
 import { Hinweis } from "@/components/Hinweis";
 import { Kartenkachel } from "@/components/Kartenkachel";
 import { Logo } from "@/components/Logo";
-import { Trachtenpin } from "@/components/Trachtenpin";
+import { TRACHTENPIN_PLATZ, Trachtenpin } from "@/components/Trachtenpin";
 import { buchungsschlussZeitpunkt, einlassZeitpunkt, einstellungenLaden } from "@/lib/einstellungen";
 import { datumLang, zeitpunktKurz } from "@/lib/format";
 import { mailAktiv } from "@/lib/mail";
@@ -92,7 +92,12 @@ export default async function InfoSeite() {
           fester Platz nicht mehr garantiert. Wenn es später wird, sag uns kurz Bescheid.
         </Hinweis>
 
-        <Hinweis ton="gruen" titel="Ein Trachtenpin pro Person" bild={<Trachtenpin />}>
+        <Hinweis
+          ton="gruen"
+          titel="Ein Trachtenpin pro Person"
+          bild={<Trachtenpin />}
+          bildPlatz={TRACHTENPIN_PLATZ}
+        >
           Jede angemeldete Person bekommt am Einlass ihren SJB-Trachtenpin. Nicht einer
           pro Tisch — einer pro Person.
         </Hinweis>

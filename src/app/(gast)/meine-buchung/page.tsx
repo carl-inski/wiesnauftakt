@@ -30,10 +30,6 @@ export default async function MeineBuchungSeite() {
 
       {buchungen.length === 0 ? (
         <>
-          <p className="mt-1.5 text-sm leading-relaxed text-white/55">
-            In diesem Browser ist noch keine Reservierung gespeichert.
-          </p>
-
           <div className="glas mt-6 p-6 text-center">
             <p className="text-base font-semibold">Noch nichts reserviert</p>
             <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-white/60">

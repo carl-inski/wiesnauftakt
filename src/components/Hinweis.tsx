@@ -20,18 +20,21 @@ export function Hinweis({
   ton = "neutral",
   titel,
   bild,
+  bildPlatz = "",
   children,
 }: {
   ton?: Ton;
   titel?: string;
-  /** Optionales Bild in der Ecke. Der Text rueckt dann rechts aus dem Weg. */
+  /** Optionales Bild am Rand. Der Text rueckt dafuer zur Seite. */
   bild?: React.ReactNode;
+  /** Wie viel Platz das Bild braucht, als Tailwind-Klassen (z. B. "pr-36"). */
+  bildPlatz?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className={`relative overflow-hidden rounded-2xl border p-4 ${STIL[ton]}`}>
       {bild}
-      <div className={bild ? "relative pr-24 sm:pr-28" : undefined}>
+      <div className={bild ? `relative ${bildPlatz}` : undefined}>
         {titel && (
           <p className={`mb-1 text-sm font-semibold ${TITELFARBE[ton]}`}>{titel}</p>
         )}
