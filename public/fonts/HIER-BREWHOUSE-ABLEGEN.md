@@ -1,21 +1,32 @@
 # BrewHouse
 
-Hier gehoert die Schrift des Logos hin:
+Leg die Schriftdatei hier ab. **Eines** dieser Formate genuegt:
 
-    public/fonts/brewhouse.woff2      (bevorzugt)
-    public/fonts/brewhouse.woff       (optional, fuer aeltere Browser)
+    brewhouse.woff2     bevorzugt, kleinste Datei
+    brewhouse.woff
+    brewhouse.otf       funktioniert genauso, nur groesser
+    brewhouse.ttf       ebenso
 
-Die Dateinamen muessen genau so lauten – `src/app/globals.css` bindet sie
-unter `@font-face { font-family: "BrewHouse" }` ein.
+Der Dateiname muss genau so lauten (klein geschrieben) – `src/app/globals.css`
+bindet alle vier Varianten unter `@font-face { font-family: "BrewHouse" }` ein
+und nimmt die erste, die es findet.
 
-Solange die Dateien fehlen, greift die Ersatzkette (Georgia bzw. die
+Solange keine Datei da ist, greift die Ersatzkette (Georgia bzw. die
 System-Serifenschrift). Die Seite funktioniert vollstaendig, nur der
 Schriftcharakter der Marke fehlt.
 
-Aus einer OTF/TTF wird eine woff2 zum Beispiel mit `fonttools`:
+## otf/ttf kleiner machen (empfohlen)
+
+Der Browser probiert die vier Formate der Reihe nach durch. Liegt nur eine
+`brewhouse.ttf` da, laufen bei jedem Seitenaufruf drei erfolglose Anfragen
+(woff2, woff, otf) ins Leere, bevor die ttf greift. Schadet nichts, ist aber
+unnoetig – mit einer woff2 sitzt gleich der erste Versuch.
 
     pip install fonttools brotli
-    fonttools ttLib.woff2 compress -o brewhouse.woff2 BrewHouse.otf
+    python3 scripts/font-woff2.py
+
+Das erzeugt aus der otf/ttf eine woff2, meist rund halb so gross. Noetig ist
+es nicht – es spart nur Ladezeit auf dem Handy.
 
 Die Schrift wird bewusst selbst gehostet und nicht von einem fremden Server
-geladen – so bleibt die Seite ohne Drittanbieter.
+geladen, damit die Seite ohne Drittanbieter auskommt.

@@ -9,8 +9,13 @@
 --------------------------------------------------------------------------- */
 @font-face {
   font-family: "BrewHouse";
+  /* Reihenfolge = Vorliebe: woff2 ist am kleinsten, otf/ttf funktionieren
+     genauso, sind nur groesser. Es reicht, EINE dieser Dateien abzulegen –
+     der Browser nimmt die erste, die er findet, und ignoriert den Rest. */
   src: url("/fonts/brewhouse.woff2") format("woff2"),
-       url("/fonts/brewhouse.woff") format("woff");
+       url("/fonts/brewhouse.woff") format("woff"),
+       url("/fonts/brewhouse.otf") format("opentype"),
+       url("/fonts/brewhouse.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
