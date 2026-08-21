@@ -244,6 +244,13 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
           </Hinweis>
         </section>
       )}
+
+      <p className="mt-10 text-center text-sm text-white/40">
+        Fragen?{" "}
+        <a href={`mailto:${e.kontakt_email}`} className="text-gelb underline underline-offset-4">
+          {e.kontakt_email}
+        </a>
+      </p>
     </main>
   );
 }

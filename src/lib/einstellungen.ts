@@ -36,7 +36,7 @@ export const STANDARD: Einstellungen = {
   reservierung_offen: true,
   ort_name: "Jugendheim SJB Haidhausen",
   ort_adresse: "Kirchenstraße 37, 81675 München",
-  kontakt_email: "wiesnauftakt@pfarrjugend-sjb.de",
+  kontakt_email: "sjb.pfarrjugend@gmx.de",
   maps_link: "https://maps.app.goo.gl/rkstZvriJ1chQuAVA",
   hinweis_startseite: "",
 };

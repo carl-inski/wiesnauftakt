@@ -18,7 +18,7 @@ insert into einstellungen (key, wert, beschreibung) values
   ('ort_name',                 to_jsonb('Jugendheim SJB Haidhausen'::text), 'Veranstaltungsort'),
   ('ort_adresse',              to_jsonb('Kirchenstraße 37, 81675 München'::text), 'Adresse fuer Karte und Kalender'),
   ('maps_link',                to_jsonb('https://maps.app.goo.gl/rkstZvriJ1chQuAVA'::text), 'Ziel des Knopfes unter der Karte'),
-  ('kontakt_email',            to_jsonb('wiesnauftakt@pfarrjugend-sjb.de'::text), 'Ruecklaufadresse'),
+  ('kontakt_email',            to_jsonb('sjb.pfarrjugend@gmx.de'::text), 'Ruecklaufadresse'),
   ('hinweis_startseite',       to_jsonb(''::text),                    'Optionaler Hinweis oben auf der Startseite')
 on conflict (key) do nothing;
 
