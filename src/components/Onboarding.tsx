@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { onboardingAbschliessen } from "@/app/actions";
 import { Logo } from "./Logo";
@@ -132,12 +133,18 @@ export function Onboarding({
                     className={`relative overflow-hidden rounded-2xl border p-4 ${k.rand}`}
                   >
                     {k.titel === "Trachtenpin für jeden" && (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
+                      /* next/image rechnet das Bild beim Ausliefern auf die
+                         gebrauchte Groesse herunter. Damit ist es egal, wie
+                         gross die Datei in public/ liegt – wer sie ersetzt,
+                         muss nichts weiter tun. */
+                      <Image
                         src="/pin-mockup.png"
                         alt=""
                         aria-hidden
-                        className="pointer-events-none absolute -right-5 -top-5 w-32 rotate-[10deg] drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)] sm:w-36"
+                        width={1254}
+                        height={1254}
+                        sizes="(min-width: 640px) 144px, 128px"
+                        className="pointer-events-none absolute -right-5 -top-5 h-auto w-32 rotate-[10deg] drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)] sm:w-36"
                       />
                     )}
                     <div className="relative flex gap-3.5">
