@@ -15,10 +15,10 @@ ORDNER = Path(__file__).resolve().parent.parent / "public" / "fonts"
 
 
 def main() -> int:
-    quelle = next((ORDNER / f"brewhouse{e}" for e in (".otf", ".ttf")
-                   if (ORDNER / f"brewhouse{e}").exists()), None)
+    kandidaten = ["brewhouse.otf", "brewhouse.ttf", "BrewHouse.otf", "BrewHouse.ttf"]
+    quelle = next((ORDNER / n for n in kandidaten if (ORDNER / n).exists()), None)
     if quelle is None:
-        print(f"Keine brewhouse.otf oder brewhouse.ttf in {ORDNER}", file=sys.stderr)
+        print(f"Keine der Dateien {', '.join(kandidaten)} in {ORDNER}", file=sys.stderr)
         return 1
 
     try:

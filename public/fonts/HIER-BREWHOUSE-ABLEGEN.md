@@ -1,32 +1,24 @@
 # BrewHouse
 
-Leg die Schriftdatei hier ab. **Eines** dieser Formate genuegt:
+    BrewHouse.ttf       Original, wie hochgeladen – Quelle
+    brewhouse.woff2     daraus erzeugt, 7 statt 23 KB – DIESE laedt die Seite
 
-    brewhouse.woff2     bevorzugt, kleinste Datei
-    brewhouse.woff
-    brewhouse.otf       funktioniert genauso, nur groesser
-    brewhouse.ttf       ebenso
+`src/app/globals.css` bindet beide Schreibweisen und alle gaengigen Formate
+unter `@font-face { font-family: "BrewHouse" }` ein und nimmt die erste Datei,
+die es findet. woff2 steht vorn, deshalb sitzt der erste Versuch.
 
-Der Dateiname muss genau so lauten (klein geschrieben) – `src/app/globals.css`
-bindet alle vier Varianten unter `@font-face { font-family: "BrewHouse" }` ein
-und nimmt die erste, die es findet.
+## Neue Fassung der Schrift?
 
-Solange keine Datei da ist, greift die Ersatzkette (Georgia bzw. die
-System-Serifenschrift). Die Seite funktioniert vollstaendig, nur der
-Schriftcharakter der Marke fehlt.
-
-## otf/ttf kleiner machen (empfohlen)
-
-Der Browser probiert die vier Formate der Reihe nach durch. Liegt nur eine
-`brewhouse.ttf` da, laufen bei jedem Seitenaufruf drei erfolglose Anfragen
-(woff2, woff, otf) ins Leere, bevor die ttf greift. Schadet nichts, ist aber
-unnoetig – mit einer woff2 sitzt gleich der erste Versuch.
+Original ablegen, dann:
 
     pip install fonttools brotli
     python3 scripts/font-woff2.py
 
-Das erzeugt aus der otf/ttf eine woff2, meist rund halb so gross. Noetig ist
-es nicht – es spart nur Ladezeit auf dem Handy.
+Das Skript nimmt `brewhouse.otf`, `brewhouse.ttf` oder `BrewHouse.ttf` und
+schreibt `brewhouse.woff2`.
 
-Die Schrift wird bewusst selbst gehostet und nicht von einem fremden Server
-geladen, damit die Seite ohne Drittanbieter auskommt.
+Ohne Umwandlung laeuft die Seite auch – der Browser nimmt dann die ttf, nur
+laufen vorher zwei erfolglose Anfragen ins Leere.
+
+Die Schrift wird selbst gehostet und nicht von einem fremden Server geladen,
+damit die Seite ohne Drittanbieter auskommt.

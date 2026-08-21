@@ -15,7 +15,9 @@
   src: url("/fonts/brewhouse.woff2") format("woff2"),
        url("/fonts/brewhouse.woff") format("woff"),
        url("/fonts/brewhouse.otf") format("opentype"),
-       url("/fonts/brewhouse.ttf") format("truetype");
+       url("/fonts/brewhouse.ttf") format("truetype"),
+       url("/fonts/BrewHouse.ttf") format("truetype"),
+       url("/fonts/BrewHouse.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
