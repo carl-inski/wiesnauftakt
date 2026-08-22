@@ -39,7 +39,7 @@ select reservierung_anlegen('T03',null,'t-5','i@j.de',null,testpersonen(1));
 
 \echo ''
 \echo '=== 6  Gesperrter Tisch — ERWARTET: TISCH_NICHT_BUCHBAR'
-select reservierung_anlegen('T09',null,'t-6','k@l.de',null,testpersonen(1));
+select reservierung_anlegen('T04',null,'t-6','k@l.de',null,testpersonen(1));
 
 \echo ''
 \echo '=== 7  Fest vergebener Tisch — ERWARTET: TISCH_NICHT_BUCHBAR'
@@ -47,11 +47,11 @@ select reservierung_anlegen('T01',null,'t-7','m@n.de',null,testpersonen(1));
 
 \echo ''
 \echo '=== 8  15 Jahre — ERWARTET: MINDESTALTER|16'
-select reservierung_anlegen('T04','Jung','t-8','o@p.de',null,testpersonen(1,'Kind',15));
+select reservierung_anlegen('T05','Jung','t-8','o@p.de',null,testpersonen(1,'Kind',15));
 
 \echo ''
 \echo '=== 9  16 Jahre — ERWARTET: klappt'
-select reservierung_anlegen('T04','Grenzfall','t-9','q@r.de',null,testpersonen(1,'Grenz',16));
+select reservierung_anlegen('T05','Grenzfall','t-9','q@r.de',null,testpersonen(1,'Grenz',16));
 
 \echo ''
 \echo '=== 10 Rohes INSERT am RPC vorbei, ueber die Kapazitaet'
@@ -73,12 +73,12 @@ select gast_verschieben(
 \echo '=== 12 Gast auf freien Tisch umsetzen — ERWARTET: klappt'
 select gast_verschieben(
   (select g.id from gaeste g join reservierungen r on r.id=g.reservierung_id where r.token='t-9' limit 1),
-  'T08');
+  'T09');
 select g.tisch_id from gaeste g join reservierungen r on r.id=g.reservierung_id where r.token='t-9';
 
 \echo ''
 \echo '=== 13 Gaesteliste umsortieren — ERWARTET: zweite Person wird Kontakt, keine Kollision'
-select reservierung_anlegen('T06','Boazn-Fraktion','t-13','x@y.de',null,testpersonen(2,'Orig'));
+select reservierung_anlegen('T11','Boazn-Fraktion','t-13','x@y.de',null,testpersonen(2,'Orig'));
 select reservierung_gaeste_setzen(
   (select r.id from reservierungen r where r.token='t-13'),
   jsonb_build_array(
@@ -111,10 +111,10 @@ select reservierung_gaeste_setzen(
 
 \echo ''
 \echo '=== 16 Storno gibt Plaetze frei und raeumt den Tischnamen ab'
-\echo '       ERWARTET: T06 leer, oeffentlicher_name leer'
+\echo '       ERWARTET: T11 leer, oeffentlicher_name leer'
 update reservierungen set status='storniert' where token='t-13';
-select tisch_neu_bewerten('T06');
-select id, oeffentlicher_name, tisch_belegt(id) as belegt from tische where id='T06';
+select tisch_neu_bewerten('T11');
+select id, oeffentlicher_name, tisch_belegt(id) as belegt from tische where id='T11';
 
 \echo ''
 \echo '=== 17 Storniertes wiederbeleben, wenn der Tisch inzwischen voll ist'
