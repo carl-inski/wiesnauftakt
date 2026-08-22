@@ -29,8 +29,8 @@ export async function generateMetadata({ params }: Eigenschaften): Promise<Metad
       : tisch.frei === 0
         ? "Dieser Tisch ist voll."
         : tisch.belegt === 0
-          ? `Noch keiner da – ${tisch.max} Plätze frei. Eröffne den Tisch für deine Leute.`
-          : `${tisch.belegt} von ${tisch.max} Plätzen belegt, noch ${tisch.frei} frei. Setz dich dazu!`;
+          ? `Noch nicht vergeben – ${tisch.max} Plätze. Frag ihn für deine Leute an.`
+          : `${tisch.belegt} von ${tisch.max} Plätzen vergeben, noch ${tisch.frei} frei. Setz dich dazu!`;
 
   return {
     title: titel,
@@ -89,11 +89,11 @@ export default async function Tischseite({ params }: Eigenschaften) {
           {tisch.status === "buchbar" ? (
             <>
               <p className="text-lg font-semibold">
-                {tisch.belegt} von {tisch.max} Plätzen belegt
+                {tisch.belegt} von {tisch.max} Plätzen vergeben
               </p>
               <p className="mt-1 text-sm text-white/60">
                 {tisch.belegt === 0
-                  ? "Noch keiner da. Du machst den Anfang."
+                  ? "Noch nicht vergeben. Frag ihn an."
                   : FUELLSTAND_TEXT[tisch.fuellstand]}
                 {tisch.frei > 0 && tisch.belegt > 0 && (
                   <> · noch {tisch.frei} {tisch.frei === 1 ? "Platz" : "Plätze"} frei</>
@@ -103,7 +103,7 @@ export default async function Tischseite({ params }: Eigenschaften) {
               {tisch.vornamen.length > 0 && (
                 <>
                   <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-white/40">
-                    Schon dabei
+                    Fest dabei
                   </p>
                   <ul className="mt-2 flex flex-wrap gap-1.5">
                     {tisch.vornamen.map((name, i) => (
@@ -135,12 +135,12 @@ export default async function Tischseite({ params }: Eigenschaften) {
         {buchbar ? (
           <>
             <h2 className="mb-1 text-2xl font-bold">
-              {eroeffnen ? "Tisch eröffnen" : "Dazusetzen"}
+              {eroeffnen ? "Tisch anfragen" : "Dazusetzen"}
             </h2>
             <p className="mb-6 text-sm leading-relaxed text-white/60">
               {eroeffnen
-                ? `Gib dem Tisch einen Namen, trag dich ein und nimm gleich mit, wer schon zugesagt hat. Bis zu ${tisch.max} Leute passen drauf.`
-                : `Der Tisch heißt ${tisch.name ? `„${tisch.name}“` : "noch nicht"} – der Name bleibt, wie ihn die erste Person vergeben hat. Trag einfach dich und deine Leute ein.`}
+                ? `Gib dem Tisch einen Namen, trag dich ein und nimm gleich mit, wer schon zugesagt hat. Bis zu ${tisch.max} Leute passen drauf. Andere dürfen denselben Tisch anfragen — wir entscheiden dann, wer ihn bekommt.`
+                : `Der Tisch geht an ${tisch.name ? `„${tisch.name}“` : "eine Gruppe"} – der Name steht damit fest. Trag einfach dich und deine Leute ein, wenn ihr euch dazusetzen wollt.`}
             </p>
 
             <div className="glas p-4 sm:p-6">
@@ -169,7 +169,7 @@ export default async function Tischseite({ params }: Eigenschaften) {
               </Hinweis>
             ) : (
               <Hinweis ton="rot" titel="Der Tisch ist voll">
-                Hier passt niemand mehr dazu. In der Festhalle sind aber noch andere
+                Hier ist jeder Platz vergeben. In der Festhalle sind aber noch andere
                 Tische offen.
               </Hinweis>
             )}

@@ -5,7 +5,8 @@ import { revalidatePath } from "next/cache";
 import { abmelden, adminKonfiguriert, adminSchutz, anmelden, passwortPruefen } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { STANDARD, type Einstellungen } from "@/lib/einstellungen";
-import { reservierungEntscheiden, reservierungPerId } from "@/lib/reservierung";
+import { fehlerText } from "@/lib/fehlertexte";
+import { reservierungEntscheiden } from "@/lib/reservierung";
 
 import type { Zustand } from "@/lib/formzustand";
 
@@ -41,31 +42,36 @@ export async function abmeldenAktion(): Promise<void> {
 // ---------------------------------------------------------------------------
 // Anfragen bestaetigen / ablehnen
 // ---------------------------------------------------------------------------
-export async function anfrageEntscheiden(formular: FormData): Promise<void> {
+/**
+ * Bestaetigen kann jetzt scheitern – etwa wenn jemand anders eben schon eine
+ * konkurrierende Gruppe auf dieselben Plaetze gesetzt hat. Deshalb gibt diese
+ * Aktion einen Zustand zurueck, statt still danebenzugreifen.
+ */
+export async function anfrageEntscheiden(
+  _vorher: Zustand,
+  formular: FormData,
+): Promise<Zustand> {
   await adminSchutz();
 
   const id = String(formular.get("id") ?? "");
   const entscheidung = String(formular.get("entscheidung") ?? "");
   const grund = String(formular.get("grund") ?? "");
 
-  if (entscheidung !== "bestaetigt" && entscheidung !== "abgelehnt") return;
+  if (entscheidung !== "bestaetigt" && entscheidung !== "abgelehnt") {
+    return { ok: false, meldung: "Unbekannte Entscheidung." };
+  }
 
   const ergebnis = await reservierungEntscheiden(id, entscheidung, grund);
   if (!ergebnis.ok) {
     alleNeuLaden();
-    return;
+    return { ok: false, meldung: fehlerText(ergebnis.code, ergebnis.args) };
   }
 
-  // Gaeste bekommen keine Mail – sie sehen den Status unter "Meine Buchung".
-  if (entscheidung === "abgelehnt") {
-    const reservierung = await reservierungPerId(id);
-    if (reservierung) {
-      // Abgelehnte Plaetze werden wieder frei – Tischnamen ggf. zuruecksetzen.
-      await db().rpc("tisch_neu_bewerten", { p_tisch_id: reservierung.tischId });
-    }
-  }
-
+  // Tischname und freigewordene Plaetze raeumt reservierung_entscheiden selbst
+  // auf. Gaeste bekommen keine Mail – sie sehen den Status unter
+  // "Meine Buchung".
   alleNeuLaden();
+  return { ok: true, meldung: entscheidung === "bestaetigt" ? "Bestätigt." : "Abgelehnt." };
 }
 
 export async function notizSpeichern(formular: FormData): Promise<void> {

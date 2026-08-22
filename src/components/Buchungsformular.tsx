@@ -112,13 +112,15 @@ export function Buchungsformular({
       </fieldset>
 
       <Hinweis ton="gelb" titel="Bevor du abschickst">
-        Das hier ist eine <strong>Anfrage</strong>, noch keine Zusage. Wir bestätigen sie
-        von Hand. Eure Plätze sind ab jetzt trotzdem vorgemerkt, damit euch keiner
-        dazwischenfunkt. Am Abend halten wir den Tisch bis {verfallZeit} Uhr frei.
+        Das hier ist eine <strong>Anfrage</strong>, noch keine Zusage. An einem Tisch
+        dürfen sich mehrere Gruppen melden — wir schauen uns alle an und entscheiden
+        dann, wer ihn bekommt. Bis dahin ist noch nichts vergeben. Sobald es steht,
+        siehst du es unter <strong>Meine Buchung</strong>. Am Abend halten wir euren
+        Tisch dann bis {verfallZeit} Uhr frei.
         <br />
         <br />
-        Deine Buchung wird in diesem Browser gespeichert — du findest sie danach
-        jederzeit unter <strong>Meine Buchung</strong>.
+        Deine Anfrage wird in diesem Browser gespeichert — du findest sie danach
+        jederzeit wieder.
       </Hinweis>
 
       <label className="flex cursor-pointer items-start gap-3 text-sm text-white/75">

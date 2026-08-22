@@ -52,8 +52,11 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
     ? reservierung.personen.length + tisch.frei
     : e.max_personen_pro_tisch;
 
-  const tischTitel = reservierung.tischName
-    ? `„${reservierung.tischName}“`
+  // Solange nichts entschieden ist, traegt der Tisch noch keinen oeffentlichen
+  // Namen – dann zeigen wir dieser Gruppe ihren eigenen Wunsch.
+  const angezeigterName = reservierung.tischName ?? reservierung.tischNameWunsch;
+  const tischTitel = angezeigterName
+    ? `„${angezeigterName}“`
     : `Tisch ${reservierung.tischNummer}`;
 
   return (
@@ -77,7 +80,7 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
             Deine Anfrage ist da.
           </p>
           <p className="mt-2 text-sm leading-relaxed text-white/70">
-            {tischTitel} für{" "}
+            Angefragt: {tischTitel} für{" "}
             {reservierung.personen.length === 1
               ? "eine Person"
               : `${reservierung.personen.length} Personen`}
@@ -134,9 +137,9 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
       <section className="mt-6 space-y-4">
         {reservierung.status === "angefragt" && (
           <Hinweis ton="gelb" titel="Noch keine Zusage">
-            Wir schauen uns jede Anfrage an und bestätigen sie von Hand. Sobald das
-            passiert ist, steht unter „Meine Buchung“ ein grünes „Bestätigt“. Eure
-            Plätze sind aber schon jetzt vorgemerkt.
+            An einem Tisch dürfen sich mehrere Gruppen melden. Wir schauen uns alle
+            Anfragen an und entscheiden von Hand — bis dahin ist der Tisch noch nicht
+            vergeben. Sobald es steht, findet ihr hier ein grünes „Bestätigt“.
           </Hinweis>
         )}
 

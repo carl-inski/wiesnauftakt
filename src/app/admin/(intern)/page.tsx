@@ -116,7 +116,7 @@ export default async function Uebersicht() {
         <h2 className="text-lg font-semibold">Schnellzugriff</h2>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           {[
-            ["/admin/anfragen", "Anfragen entscheiden", "Bestätigen oder ablehnen, beides schickt eine Mail."],
+            ["/admin/anfragen", "Anfragen entscheiden", "Nach Tisch gruppiert — erst die Bestätigung vergibt den Platz."],
             ["/admin/tische", "Tische freischalten", "Der Hebel, wenn die Nachfrage da ist."],
             ["/admin/gaeste", "Gästeliste", "Suchen, Minderjährige filtern, exportieren."],
             ["/admin/einlass", "Einlassansicht", "Für den Abend: Name antippen, Haken setzen."],

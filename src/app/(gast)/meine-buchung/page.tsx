@@ -61,7 +61,7 @@ export default async function MeineBuchungSeite() {
           <div className="mt-5 space-y-5">
             {buchungen.map((r) => {
               const status = STATUS[r.status];
-              const titel = r.tischName ?? `Tisch ${r.tischNummer}`;
+              const titel = r.tischName ?? r.tischNameWunsch ?? `Tisch ${r.tischNummer}`;
               const aenderbar = r.status === "angefragt" || r.status === "bestaetigt";
 
               return (
@@ -86,8 +86,9 @@ export default async function MeineBuchungSeite() {
                   {r.status === "angefragt" && (
                     <div className="mt-4">
                       <Hinweis ton="gelb" titel="Noch keine Zusage">
-                        Wir bestätigen jede Anfrage von Hand. Sobald das passiert ist,
-                        steht hier „Bestätigt“. Eure Plätze sind aber schon vorgemerkt.
+                        An einem Tisch dürfen sich mehrere Gruppen melden. Wir schauen
+                        uns alle an und entscheiden von Hand — steht es, findet ihr
+                        hier ein grünes „Bestätigt“.
                       </Hinweis>
                     </div>
                   )}

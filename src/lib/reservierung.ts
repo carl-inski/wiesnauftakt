@@ -22,7 +22,10 @@ export type Reservierung = {
   status: ReservierungStatus;
   tischId: string;
   tischNummer: number;
+  /** Oeffentlicher Name des Tisches – steht erst, wenn eine Gruppe zugesagt bekam. */
   tischName: string | null;
+  /** Was diese Gruppe sich beim Anfragen gewuenscht hat. */
+  tischNameWunsch: string | null;
   email: string | null;
   telefon: string | null;
   ablehnungGrund: string | null;
@@ -48,6 +51,7 @@ type RohZeile = {
   notiz_intern: string | null;
   erstellt_am: string;
   entschieden_am: string | null;
+  tisch_name_wunsch: string | null;
   tische: { nummer: number; oeffentlicher_name: string | null } | null;
   gaeste: {
     id: string;
@@ -64,7 +68,7 @@ type RohZeile = {
 
 const AUSWAHL = `
   id, token, status, tisch_id, kontakt_email, kontakt_telefon, ablehnung_grund,
-  notiz_intern, erstellt_am, entschieden_am,
+  notiz_intern, erstellt_am, entschieden_am, tisch_name_wunsch,
   tische ( nummer, oeffentlicher_name ),
   gaeste ( id, vorname, nachname, alter_jahre, ist_kontakt, tisch_id, position,
            eingecheckt_am, pin_ausgegeben_am )
@@ -78,6 +82,7 @@ function abbilden(zeile: RohZeile): Reservierung {
     tischId: zeile.tisch_id,
     tischNummer: zeile.tische?.nummer ?? 0,
     tischName: zeile.tische?.oeffentlicher_name ?? null,
+    tischNameWunsch: zeile.tisch_name_wunsch,
     email: zeile.kontakt_email,
     telefon: zeile.kontakt_telefon,
     ablehnungGrund: zeile.ablehnung_grund,
@@ -198,21 +203,30 @@ export async function reservierungStornieren(id: string, tischId: string): Promi
   await db().rpc("tisch_neu_bewerten", { p_tisch_id: tischId });
 }
 
+export type EntscheidungErgebnis =
+  | { ok: true }
+  | { ok: false; code: DbFehler; args: string[] };
+
+/**
+ * Bestaetigen ist der Moment, in dem Plaetze tatsaechlich vergeben werden –
+ * deshalb laeuft es ueber die Datenbankfunktion, die den Tisch sperrt und
+ * nachzaehlt. Zwei Leute im Orgateam koennen so nicht gleichzeitig zwei
+ * Gruppen auf dieselben letzten Plaetze setzen.
+ */
 export async function reservierungEntscheiden(
   id: string,
   status: "bestaetigt" | "abgelehnt",
   grund?: string,
-): Promise<{ ok: boolean; fehler?: string }> {
-  const { error } = await db()
-    .from("reservierungen")
-    .update({
-      status,
-      ablehnung_grund: status === "abgelehnt" ? grund?.trim() || null : null,
-      entschieden_am: new Date().toISOString(),
-      aktualisiert_am: new Date().toISOString(),
-    })
-    .eq("id", id);
+): Promise<EntscheidungErgebnis> {
+  const { error } = await db().rpc("reservierung_entscheiden", {
+    p_id: id,
+    p_status: status,
+    p_grund: grund?.trim() || null,
+  });
 
-  if (error) return { ok: false, fehler: error.message };
+  if (error) {
+    const { code, args } = fehlerLesen(error.message);
+    return { ok: false, code, args };
+  }
   return { ok: true };
 }

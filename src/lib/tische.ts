@@ -73,10 +73,14 @@ export const saalLaden = cache(async (): Promise<SaalUebersicht> => {
       .order("nummer"),
     // Nur Vorname und Tisch verlassen die Datenbank – mehr braucht die
     // oeffentliche Ansicht nicht.
+    //
+    // Und nur Bestaetigte: Offene Anfragen sind Angebote, ueber die das
+    // Orgateam noch entscheidet. Wer wo sitzt, steht erst mit der Zusage fest –
+    // vorher darf davon im Browser nichts auftauchen.
     db()
       .from("gaeste")
       .select("tisch_id, vorname, erstellt_am, reservierungen!inner(status)")
-      .in("reservierungen.status", ["angefragt", "bestaetigt"])
+      .eq("reservierungen.status", "bestaetigt")
       // Nach Eintragezeitpunkt: so stehen die Vornamen in der Reihenfolge da,
       // in der sich die Leute angemeldet haben – und nicht nach Position
       // innerhalb der jeweiligen Reservierung durcheinander.
@@ -136,7 +140,11 @@ export async function tischLaden(id: string): Promise<TischOeffentlich | null> {
   return saal.tische.find((t) => t.id === id.toUpperCase()) ?? null;
 }
 
-/** Personen mit Status angefragt/bestaetigt im ganzen Saal. */
+/**
+ * Personen im ganzen Saal. `bestaetigt` sind die, die tatsaechlich einen Platz
+ * haben; `gesamt` nimmt die offenen Anfragen dazu – fuer das Orgateam die
+ * Vorschau, wie viele Leute noch entschieden werden wollen.
+ */
 export async function personenGesamt(): Promise<{ gesamt: number; bestaetigt: number }> {
   if (!dbKonfiguriert()) return { gesamt: 0, bestaetigt: 0 };
   const { data } = await db()

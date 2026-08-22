@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { anfrageEntscheiden, notizSpeichern } from "@/app/admin/aktionen";
+import { LEER } from "@/lib/formzustand";
 
 type Person = {
   id: string;
@@ -34,6 +35,7 @@ export function AnfrageKarte({
   id,
   tischNummer,
   tischName,
+  tischNameWunsch,
   email,
   telefon,
   erstelltAm,
@@ -45,6 +47,7 @@ export function AnfrageKarte({
   id: string;
   tischNummer: number;
   tischName: string | null;
+  tischNameWunsch: string | null;
   email: string | null;
   telefon: string | null;
   erstelltAm: string;
@@ -54,6 +57,7 @@ export function AnfrageKarte({
   status: string;
 }) {
   const [ablehnen, setAblehnen] = useState(false);
+  const [zustand, entscheiden] = useActionState(anfrageEntscheiden, LEER);
   const minderjaehrige = personen.filter((p) => p.alterJahre < mindestalter);
 
   return (
@@ -63,7 +67,14 @@ export function AnfrageKarte({
           <p className="text-xs font-semibold uppercase tracking-widest text-white/40">
             Tisch {tischNummer}
           </p>
-          <h3 className="mt-0.5 text-lg font-semibold">{tischName ?? "ohne Namen"}</h3>
+          <h3 className="mt-0.5 text-lg font-semibold">
+            {tischNameWunsch ?? tischName ?? "ohne Namen"}
+          </h3>
+          {tischName && tischNameWunsch && tischName !== tischNameWunsch && (
+            <p className="mt-0.5 text-xs text-white/45">
+              Tisch heißt bereits „{tischName}“
+            </p>
+          )}
           <p className="mt-1 text-xs text-white/45">
             {erstelltAm} · {personen.length === 1 ? "1 Person" : `${personen.length} Personen`}
           </p>
@@ -133,9 +144,14 @@ export function AnfrageKarte({
 
       {status === "angefragt" && (
         <div className="mt-4 border-t border-white/8 pt-4">
+          {zustand.meldung && !zustand.ok && (
+            <p className="mb-3 rounded-lg border border-rot/40 bg-rot/10 px-3 py-2 text-sm text-white/85">
+              {zustand.meldung}
+            </p>
+          )}
           {!ablehnen ? (
             <div className="flex flex-wrap gap-2">
-              <form action={anfrageEntscheiden}>
+              <form action={entscheiden}>
                 <input type="hidden" name="id" value={id} />
                 <input type="hidden" name="entscheidung" value="bestaetigt" />
                 <Knopf kind="Bestätigen" farbe="bg-gruen text-white hover:bg-gruen/85" />
@@ -149,11 +165,11 @@ export function AnfrageKarte({
               </button>
             </div>
           ) : (
-            <form action={anfrageEntscheiden} className="space-y-2">
+            <form action={entscheiden} className="space-y-2">
               <input type="hidden" name="id" value={id} />
               <input type="hidden" name="entscheidung" value="abgelehnt" />
               <label htmlFor={`grund-${id}`} className="block text-sm text-white/70">
-                Was sollen wir zurückschreiben? Steht so in der Mail.
+                Grund für die Absage – die Gruppe sieht ihn unter „Meine Buchung“.
               </label>
               <textarea
                 id={`grund-${id}`}
@@ -164,7 +180,7 @@ export function AnfrageKarte({
                 placeholder="z. B. Die Festhalle ist leider voll – meld dich gern, falls jemand abspringt."
               />
               <div className="flex flex-wrap gap-2">
-                <Knopf kind="Ablehnen und Mail schicken" farbe="bg-rot text-white hover:bg-rot/85" />
+                <Knopf kind="Ablehnen" farbe="bg-rot text-white hover:bg-rot/85" />
                 <button
                   type="button"
                   onClick={() => setAblehnen(false)}

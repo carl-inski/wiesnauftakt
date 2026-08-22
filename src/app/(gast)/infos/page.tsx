@@ -66,7 +66,7 @@ export default async function InfoSeite() {
           {[
             ["Tisch aussuchen", "Einen freien Tisch eröffnen und ihm einen Namen geben — oder dich an einen angefangenen Tisch dazusetzen."],
             ["Leute eintragen", "Dich selbst und alle, die mitkommen. Nachtragen geht später jederzeit."],
-            ["Auf unser Okay warten", "Wir schauen jede Anfrage an und bestätigen sie von Hand."],
+            ["Auf unser Okay warten", "Am selben Tisch dürfen mehrere anfragen. Wir schauen uns alle an und entscheiden von Hand."],
           ].map(([titel, text], i) => (
             <li key={titel} className="glas-tief flex gap-3.5 p-4">
               <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-rot text-sm font-bold">
@@ -83,8 +83,9 @@ export default async function InfoSeite() {
 
       <section className="mt-7 space-y-3">
         <Hinweis ton="gelb" titel="Eine Anfrage ist noch keine Zusage">
-          Wenn du abschickst, ist euer Platz vorgemerkt. Wir bestätigen jede Reservierung
-          von Hand — erst dann steht unter „Meine Buchung“ ein grünes „Bestätigt“.
+          An einem Tisch dürfen sich mehrere Gruppen melden. Wir schauen uns alle an
+          und entscheiden von Hand — erst dann ist der Tisch vergeben und unter
+          „Meine Buchung“ steht ein grünes „Bestätigt“.
         </Hinweis>
 
         <Hinweis ton="rot" titel={`Tische halten wir bis ${e.verfall_zeit} Uhr frei`}>
