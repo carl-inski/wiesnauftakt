@@ -24,8 +24,10 @@ export async function generateMetadata({ params }: Eigenschaften): Promise<Metad
     : `Tisch ${tisch.nummer}`;
 
   const beschreibung =
-    tisch.status !== "buchbar"
-      ? "Dieser Tisch ist nicht buchbar."
+    tisch.status === "gesperrt"
+      ? "Freie Platzwahl ohne Reservierung."
+      : tisch.status !== "buchbar"
+      ? "Dieser Tisch ist fest vergeben."
       : tisch.frei === 0
         ? "Dieser Tisch ist voll."
         : tisch.belegt === 0
@@ -66,7 +68,9 @@ export default async function Tischseite({ params }: Eigenschaften) {
         <h1 className="marke mt-1.5 text-4xl sm:text-5xl">
           {tisch.status === "intern"
             ? (tisch.internerTitel ?? "Fest vergeben")
-            : (tisch.name ?? "Noch frei")}
+            : tisch.status === "gesperrt"
+              ? "Freie Platzwahl"
+              : (tisch.name ?? "Noch frei")}
         </h1>
         <p className="mt-2 text-sm text-white/60">
           {datumLang(e.event_datum)} · Einlass ab {e.einlass_zeit} Uhr · {e.ort_name}
@@ -82,7 +86,9 @@ export default async function Tischseite({ params }: Eigenschaften) {
             ausgewaehlt={tisch.id}
             klein
           />
-          <p className="mt-2 text-center text-xs text-white/40">Da sitzt ihr</p>
+          <p className="mt-2 text-center text-xs text-white/40">
+            {tisch.status === "buchbar" ? "Da sitzt ihr" : "Da steht der Tisch"}
+          </p>
         </div>
 
         <div className="glas p-4 sm:p-5">
@@ -120,11 +126,13 @@ export default async function Tischseite({ params }: Eigenschaften) {
             </>
           ) : (
             <>
-              <p className="text-lg font-semibold">Hier geht nichts</p>
+              <p className="text-lg font-semibold">
+                {tisch.status === "intern" ? "Hier geht nichts" : "Ohne Reservierung"}
+              </p>
               <p className="mt-1 text-sm text-white/60">
                 {tisch.status === "intern"
                   ? "Dieser Tisch ist fest vergeben."
-                  : "Diesen Tisch haben wir noch nicht freigeschaltet."}
+                  : "An diesem Tisch wird nicht reserviert — hier gilt freie Platzwahl."}
               </p>
             </>
           )}
@@ -162,10 +170,17 @@ export default async function Tischseite({ params }: Eigenschaften) {
                   : "Gerade nehmen wir keine Reservierungen an."}
               </Hinweis>
             ) : tisch.status !== "buchbar" ? (
-              <Hinweis ton="neutral" titel="Nicht buchbar">
+              <Hinweis
+                ton="neutral"
+                titel={
+                  tisch.status === "intern"
+                    ? "Nicht buchbar"
+                    : "Freie Platzwahl ohne Reservierung"
+                }
+              >
                 {tisch.status === "intern"
                   ? "Diesen Tisch haben wir fest vergeben – er steht nur zur Orientierung im Plan."
-                  : "Diesen Tisch schalten wir vielleicht noch frei, wenn die Nachfrage da ist."}
+                  : "Diesen Tisch könnt ihr nicht reservieren. Wer da sitzen will, kommt einfach und setzt sich — solange noch was frei ist."}
               </Hinweis>
             ) : (
               <Hinweis ton="rot" titel="Der Tisch ist voll">

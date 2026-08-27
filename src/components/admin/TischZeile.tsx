@@ -17,7 +17,7 @@ type Eigenschaften = {
 
 const STATUSNAME = {
   buchbar: "online buchbar",
-  gesperrt: "gesperrt",
+  gesperrt: "freie Platzwahl",
   intern: "fest vergeben",
 };
 
@@ -73,7 +73,7 @@ export function TischZeile(t: Eigenschaften) {
                 title={t.belegt > 0 ? "Erst leerräumen – hier sitzen schon Leute." : undefined}
                 className="glas-knopf rounded-full px-4 py-2 text-sm font-semibold text-white disabled:opacity-40"
               >
-                Sperren
+                Auf freie Platzwahl
               </button>
             </form>
           )}
@@ -105,7 +105,7 @@ export function TischZeile(t: Eigenschaften) {
                 className="feld"
               >
                 <option value="buchbar">online buchbar</option>
-                <option value="gesperrt">gesperrt (sichtbar, nicht klickbar)</option>
+                <option value="gesperrt">freie Platzwahl (im Plan, nicht reservierbar)</option>
                 <option value="intern">fest vergeben</option>
               </select>
             </div>

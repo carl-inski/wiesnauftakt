@@ -26,7 +26,9 @@ export default async function TischeSeite() {
       <h1 className="text-2xl font-bold tracking-tight">Tische</h1>
       <p className="mt-1 text-sm leading-relaxed text-white/50">
         {buchbar.length} von {saal.tische.length} Tischen sind online. Ein freigeschalteter
-        Tisch taucht sofort auf der öffentlichen Seite auf – kein Deploy nötig.
+        Tisch taucht sofort auf der öffentlichen Seite auf – kein Deploy nötig. Nicht
+        freigeschaltete Tische stehen für die Gäste als „Freie Platzwahl ohne
+        Reservierung“ im Plan.
       </p>
 
       <div className="mt-4">

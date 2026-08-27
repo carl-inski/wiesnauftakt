@@ -96,7 +96,7 @@ export function Saalplan({
           t.status === "intern"
             ? `Tisch ${t.nummer}: ${t.internerTitel ?? "fest vergeben"}, nicht buchbar`
             : t.status === "gesperrt"
-              ? `Tisch ${t.nummer}: noch nicht freigeschaltet`
+              ? `Tisch ${t.nummer}: freie Platzwahl ohne Reservierung`
               : `Tisch ${t.nummer}${t.name ? `, ${t.name}` : ""}: ${t.belegt} von ${t.max} Plätzen belegt${t.frei > 0 ? `, ${t.frei} frei` : ", voll"}`;
 
         // Laengs an der Tischkante steht der Name: bei fest vergebenen Tischen
@@ -159,11 +159,20 @@ export function Saalplan({
               style={{ transition: "stroke 180ms ease, fill 180ms ease" }}
             />
 
+            {/* Bei Tischen ohne Reservierung steht die Laengsschrift links und
+                die Zahl auf der freien rechten Haelfte – sonst laufen beide
+                ineinander. */}
             <text
-              x={g.mitte.x}
-              y={t.status === "buchbar" ? g.mitte.y - 6 : g.mitte.y + 24}
+              x={t.status === "gesperrt" ? g.mitte.x + 50 : g.mitte.x}
+              y={
+                t.status === "buchbar"
+                  ? g.mitte.y - 6
+                  : t.status === "gesperrt"
+                    ? g.mitte.y + 22
+                    : g.mitte.y + 24
+              }
               textAnchor="middle"
-              fontSize={klein ? 82 : 74}
+              fontSize={t.status === "gesperrt" ? 58 : klein ? 82 : 74}
               fontWeight={700}
               fill={stil.text}
             >
@@ -212,17 +221,23 @@ export function Saalplan({
               </g>
             )}
 
-            {t.status === "gesperrt" && (
-              <text
-                x={g.mitte.x}
-                y={g.mitte.y + 76}
-                textAnchor="middle"
-                fontSize={32}
-                fill="rgba(255,255,255,0.35)"
-              >
-                gesperrt
-              </text>
-            )}
+            {/* An diesen Tischen wird nicht reserviert – der Hinweis passt quer
+                nicht auf die 180 Einheiten Tischbreite, laengs auf zwei Zeilen
+                schon. Dieselbe Drehung wie bei den Tischnamen. */}
+            {t.status === "gesperrt" &&
+              ["Freie Platzwahl", "ohne Reservierung"].map((zeile, i) => (
+                <text
+                  key={zeile}
+                  x={g.mitte.x}
+                  y={g.mitte.y}
+                  transform={`rotate(-90 ${g.mitte.x} ${g.mitte.y}) translate(0 ${-(g.w / 2 - 28) + i * 38})`}
+                  textAnchor="middle"
+                  fontSize={30}
+                  fill="rgba(255,255,255,0.42)"
+                >
+                  {zeile}
+                </text>
+              ))}
           </g>
         );
       })}
