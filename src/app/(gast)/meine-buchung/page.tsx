@@ -83,6 +83,16 @@ export default async function MeineBuchungSeite() {
                     : {aufzaehlung(r.personen.map((p) => p.vorname))}
                   </p>
 
+                  {r.hinweisGast && (
+                    <div className="mt-4">
+                      <Hinweis ton="orange" titel="Nachricht von uns">
+                        <span className="whitespace-pre-line text-white">
+                          {r.hinweisGast}
+                        </span>
+                      </Hinweis>
+                    </div>
+                  )}
+
                   {r.status === "angefragt" && (
                     <div className="mt-4">
                       <Hinweis ton="gelb" titel="Noch keine Zusage">

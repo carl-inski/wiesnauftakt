@@ -86,6 +86,7 @@ export default async function AnfragenSeite() {
                         tischNummer={r.tischNummer}
                         tischName={r.tischName}
                         tischNameWunsch={r.tischNameWunsch}
+                        hinweisGast={r.hinweisGast}
                         email={r.email}
                         telefon={r.telefon}
                         erstelltAm={`${zeitpunktKurz(r.erstelltAm)} Uhr`}
@@ -122,6 +123,11 @@ export default async function AnfragenSeite() {
                     {r.personen.map((p) => p.vorname).join(", ")}
                     {r.telefon ? ` · ${r.telefon}` : ""}
                   </p>
+                  {r.hinweisGast && (
+                    <p className="mt-1 text-xs text-orange-hell">
+                      Nachricht an die Gruppe: {r.hinweisGast}
+                    </p>
+                  )}
                 </div>
                 <span
                   className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ${

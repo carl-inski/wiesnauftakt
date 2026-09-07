@@ -99,8 +99,10 @@ export default async function InfoSeite() {
           bild={<Trachtenpin />}
           bildPlatz={TRACHTENPIN_PLATZ}
         >
-          Jede angemeldete Person bekommt am Einlass ihren SJB-Trachtenpin. Nicht einer
-          pro Tisch — einer pro Person.
+          Am Einlass gibt es für jede angemeldete Person einen SJB-Trachtenpin — einer
+          pro Person, nicht einer pro Tisch. Die Pins sind bestellt, und es haben
+          deutlich mehr Leute reserviert als geplant: ganz garantieren können wir sie
+          deshalb nicht.
         </Hinweis>
 
         <Hinweis ton="neutral" titel={`Ab ${e.mindestalter} Jahren`}>

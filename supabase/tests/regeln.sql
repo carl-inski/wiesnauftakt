@@ -223,5 +223,31 @@ from reservierungen r join gaeste g on g.reservierung_id = r.id
 group by r.token having count(*) filter (where g.ist_kontakt) <> 1;
 \echo '   (keine Zeilen = alles in Ordnung)'
 
+\echo ''
+\echo '=== 31 Ganze Reservierung auf einen anderen Tisch setzen'
+\echo '       ERWARTET: Gaeste und Reservierung wandern mit (res_tisch T12,'
+\echo '       gaeste_tische 1). T09 behaelt seinen Namen, weil dort aus Test 18'
+\echo '       noch eine umgesetzte Person sitzt – aufgeraeumt wird nur ein leerer Tisch.'
+select reservierung_anlegen('T09','Umzugsgruppe','t-31','u@u.de',null,testpersonen(4,'Um'));
+select reservierung_entscheiden(res_id('t-31'), 'bestaetigt');
+select reservierung_verschieben(res_id('t-31'), 'T12');
+select (select tisch_id from reservierungen where token='t-31') as res_tisch,
+       (select count(distinct tisch_id) from gaeste where reservierung_id = res_id('t-31')) as gaeste_tische,
+       (select coalesce(oeffentlicher_name,'(leer)') from tische where id='T09') as t09_name,
+       tisch_belegt('T09') as t09_belegt, tisch_belegt('T12') as t12_belegt;
+
+\echo ''
+\echo '=== 32 Verschieben auf einen zu vollen Tisch — ERWARTET: TISCH_VOLL, nichts wandert'
+select reservierung_verschieben(res_id('t-31'), 'T03');
+select (select tisch_id from reservierungen where token='t-31') as steht_noch_auf;
+
+\echo ''
+\echo '=== 33 Hinweis an die Gruppe bleibt bei einer Korrektur erhalten'
+\echo '       ERWARTET: erst der Text, danach unveraendert derselbe'
+select reservierung_entscheiden(res_id('t-31'), 'bestaetigt', null, 'Anderer Tisch, sorry.');
+select hinweis_gast from reservierungen where token='t-31';
+select reservierung_entscheiden(res_id('t-31'), 'bestaetigt');
+select hinweis_gast as unveraendert from reservierungen where token='t-31';
+
 drop function testpersonen(int, text, int);
 drop function res_id(text);

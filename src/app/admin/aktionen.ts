@@ -56,12 +56,13 @@ export async function anfrageEntscheiden(
   const id = String(formular.get("id") ?? "");
   const entscheidung = String(formular.get("entscheidung") ?? "");
   const grund = String(formular.get("grund") ?? "");
+  const hinweis = String(formular.get("hinweis") ?? "");
 
   if (entscheidung !== "bestaetigt" && entscheidung !== "abgelehnt") {
     return { ok: false, meldung: "Unbekannte Entscheidung." };
   }
 
-  const ergebnis = await reservierungEntscheiden(id, entscheidung, grund);
+  const ergebnis = await reservierungEntscheiden(id, entscheidung, grund, hinweis);
   if (!ergebnis.ok) {
     alleNeuLaden();
     return { ok: false, meldung: fehlerText(ergebnis.code, ergebnis.args) };

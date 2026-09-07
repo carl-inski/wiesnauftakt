@@ -135,6 +135,16 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
 
       {/* ----------------------------------------------------------- Status */}
       <section className="mt-6 space-y-4">
+        {/* Persoenliche Nachricht vom Orgateam – steht bewusst ganz oben, sie
+            ist der Grund, warum jemand diese Seite nochmal aufmacht. */}
+        {reservierung.hinweisGast && (
+          <Hinweis ton="orange" titel="Nachricht von uns">
+            <span className="whitespace-pre-line text-white">
+              {reservierung.hinweisGast}
+            </span>
+          </Hinweis>
+        )}
+
         {reservierung.status === "angefragt" && (
           <Hinweis ton="gelb" titel="Noch keine Zusage">
             An einem Tisch dürfen sich mehrere Gruppen melden. Wir schauen uns alle
@@ -145,8 +155,9 @@ export default async function Verwaltungsseite({ params, searchParams }: Eigensc
 
         {reservierung.status === "bestaetigt" && (
           <Hinweis ton="gruen" titel="Bestätigt – ihr seid dabei">
-            Euer Tisch steht. Wir halten ihn bis {e.verfall_zeit} Uhr frei. Jede Person auf
-            der Liste bekommt am Einlass ihren SJB-Trachtenpin.
+            Euer Tisch steht. Wir halten ihn bis {e.verfall_zeit} Uhr frei. Am Einlass
+            gibt es für jede Person auf der Liste einen SJB-Trachtenpin, solange der
+            Vorrat reicht.
           </Hinweis>
         )}
 

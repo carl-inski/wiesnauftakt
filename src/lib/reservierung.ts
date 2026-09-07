@@ -29,6 +29,8 @@ export type Reservierung = {
   email: string | null;
   telefon: string | null;
   ablehnungGrund: string | null;
+  /** Freitext, den diese Gruppe zu sehen bekommt – anders als notizIntern. */
+  hinweisGast: string | null;
   notizIntern: string | null;
   erstelltAm: string;
   entschiedenAm: string | null;
@@ -48,6 +50,7 @@ type RohZeile = {
   kontakt_email: string | null;
   kontakt_telefon: string | null;
   ablehnung_grund: string | null;
+  hinweis_gast: string | null;
   notiz_intern: string | null;
   erstellt_am: string;
   entschieden_am: string | null;
@@ -68,7 +71,7 @@ type RohZeile = {
 
 const AUSWAHL = `
   id, token, status, tisch_id, kontakt_email, kontakt_telefon, ablehnung_grund,
-  notiz_intern, erstellt_am, entschieden_am, tisch_name_wunsch,
+  notiz_intern, erstellt_am, entschieden_am, tisch_name_wunsch, hinweis_gast,
   tische ( nummer, oeffentlicher_name ),
   gaeste ( id, vorname, nachname, alter_jahre, ist_kontakt, tisch_id, position,
            eingecheckt_am, pin_ausgegeben_am )
@@ -86,6 +89,7 @@ function abbilden(zeile: RohZeile): Reservierung {
     email: zeile.kontakt_email,
     telefon: zeile.kontakt_telefon,
     ablehnungGrund: zeile.ablehnung_grund,
+    hinweisGast: zeile.hinweis_gast,
     notizIntern: zeile.notiz_intern,
     erstelltAm: zeile.erstellt_am,
     entschiedenAm: zeile.entschieden_am,
@@ -217,11 +221,13 @@ export async function reservierungEntscheiden(
   id: string,
   status: "bestaetigt" | "abgelehnt",
   grund?: string,
+  hinweis?: string,
 ): Promise<EntscheidungErgebnis> {
   const { error } = await db().rpc("reservierung_entscheiden", {
     p_id: id,
     p_status: status,
     p_grund: grund?.trim() || null,
+    p_hinweis: hinweis?.trim() || null,
   });
 
   if (error) {

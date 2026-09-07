@@ -34,7 +34,7 @@ const KACHELN: Kachel[] = [
   },
   {
     titel: "Trachtenpin für jeden",
-    text: "Jede angemeldete Person bekommt am Einlass ihren SJB-Trachtenpin. Einer pro Person, nicht pro Tisch.",
+    text: "Am Einlass gibt es für jede angemeldete Person einen SJB-Trachtenpin — einer pro Person, nicht pro Tisch. Solange der Vorrat reicht.",
     farbe: "text-gelb",
     rand: "border-gelb/30 bg-gelb/10",
     symbol: (

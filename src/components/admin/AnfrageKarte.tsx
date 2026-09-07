@@ -36,6 +36,7 @@ export function AnfrageKarte({
   tischNummer,
   tischName,
   tischNameWunsch,
+  hinweisGast,
   email,
   telefon,
   erstelltAm,
@@ -48,6 +49,7 @@ export function AnfrageKarte({
   tischNummer: number;
   tischName: string | null;
   tischNameWunsch: string | null;
+  hinweisGast: string | null;
   email: string | null;
   telefon: string | null;
   erstelltAm: string;
@@ -151,9 +153,20 @@ export function AnfrageKarte({
           )}
           {!ablehnen ? (
             <div className="flex flex-wrap gap-2">
-              <form action={entscheiden}>
+              <form action={entscheiden} className="w-full space-y-2">
                 <input type="hidden" name="id" value={id} />
                 <input type="hidden" name="entscheidung" value="bestaetigt" />
+                {/* Optional: Eine Zusage kann eine Einschraenkung mitbringen –
+                    anderer Tisch, kein Pin garantiert. Die Gruppe sieht den Text
+                    unter "Meine Buchung". */}
+                <textarea
+                  name="hinweis"
+                  rows={2}
+                  maxLength={800}
+                  defaultValue={hinweisGast ?? ""}
+                  className="feld text-sm"
+                  placeholder="Nachricht an die Gruppe (freiwillig) – sehen die Gäste"
+                />
                 <Knopf kind="Bestätigen" farbe="bg-gruen text-white hover:bg-gruen/85" />
               </form>
               <button
