@@ -1,6 +1,23 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { env } from "@/lib/env";
 import { basisUrl } from "@/lib/urls";
 import "./globals.css";
+
+/**
+ * Besucherzaehlung – bewusst hinter einem Schalter.
+ *
+ * Die Seite kam mit der Vorgabe "kein Tracking, keine Cookie-Banner" auf die
+ * Welt, und das ist der Normalzustand: Ohne NEXT_PUBLIC_BESUCHERZAEHLUNG=an
+ * wird nichts geladen, nichts gesendet, nichts gemessen.
+ *
+ * Wird der Schalter umgelegt, zaehlt Vercel Web Analytics Seitenaufrufe –
+ * ohne Cookies und ohne Kennung, die eine Person wiedererkennbar macht,
+ * deshalb braucht es dafuer weiterhin kein Banner. Damit Zahlen ankommen,
+ * muss zusaetzlich im Vercel-Projekt unter Analytics der Schalter an sein;
+ * ohne den laufen die Meldungen ins Leere.
+ */
+const besucherzaehlung = env("NEXT_PUBLIC_BESUCHERZAEHLUNG") === "an";
 
 export const metadata: Metadata = {
   // basisUrl() faengt leere und schiefe Werte ab – new URL("") hat frueher
@@ -41,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Zum Inhalt springen
         </a>
         {children}
+        {besucherzaehlung && <Analytics />}
       </body>
     </html>
   );
